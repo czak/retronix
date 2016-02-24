@@ -25,5 +25,5 @@ public abstract class GameCharacter {
         this.direction = direction;
     }
 
-    public abstract void move();
+    public abstract boolean move();
 }

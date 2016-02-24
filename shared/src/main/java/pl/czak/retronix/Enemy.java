@@ -16,7 +16,7 @@ public class Enemy extends GameCharacter {
     }
 
     @Override
-    public void move() {
+    public boolean move() {
         // Wall in my horizontal direction?
         if (!isValidLocation(x + direction.dx, y)) {
             direction = direction.flippedX();
@@ -36,6 +36,7 @@ public class Enemy extends GameCharacter {
             x += direction.dx;
             y += direction.dy;
         }
+        return false;
     }
 
     private boolean isValidLocation(int x, int y) {

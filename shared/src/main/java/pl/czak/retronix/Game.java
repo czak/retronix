@@ -25,7 +25,7 @@ public class Game {
                     update();
                     renderer.render(board, player, enemies);
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(40);
                     } catch (InterruptedException ignored) {}
                 }
             }
@@ -33,7 +33,10 @@ public class Game {
     }
 
     private void update() {
-        player.move();
+        if (player.move()) {
+            board.fill(enemies);
+        }
+
         for (Enemy enemy : enemies) {
             enemy.move();
         }

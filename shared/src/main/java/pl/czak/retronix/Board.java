@@ -1,5 +1,7 @@
 package pl.czak.retronix;
 
+import java.util.List;
+
 /**
  * Created by czak on 24/02/16.
  */
@@ -8,7 +10,10 @@ public class Board {
     private static final int DEFAULT_HEIGHT = 40;
 
     public enum Field {
-        LAND, SEA, SAND;
+        LAND, SEA, SAND,
+        // This is a marker field meaning the field
+        // will remain a SEA after fill.
+        DEEP_SEA;
     }
 
     private Field[][] fields;
@@ -24,8 +29,8 @@ public class Board {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                boolean isLand = x < 2 || y < 2 || x >= width - 2 || y >= height - 2;
-                fields[y][x] = isLand ? Field.LAND : Field.SEA;
+                boolean isBorder = x < 2 || y < 2 || x >= width - 2 || y >= height - 2;
+                fields[y][x] = isBorder ? Field.LAND : Field.SEA;
             }
         }
     }
@@ -53,5 +58,34 @@ public class Board {
     public boolean isWithinBounds(int x, int y) {
         return x >= 0 && x < width &&
                 y >= 0 && y < height;
+    }
+
+    /**
+     * Fill walled areas with land
+     * @param enemies
+     */
+    public void fill(List<Enemy> enemies) {
+        for (Enemy enemy : enemies) {
+            floodFill(enemy.x, enemy.y);
+        }
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (fields[y][x] == Field.DEEP_SEA)
+                    fields[y][x] = Field.SEA;
+                else
+                    fields[y][x] = Field.LAND;
+            }
+        }
+    }
+
+    private void floodFill(int x, int y) {
+        if (fields[y][x] == Field.SEA) {
+            fields[y][x] = Field.DEEP_SEA;
+            floodFill(x - 1, y);
+            floodFill(x + 1, y);
+            floodFill(x, y - 1);
+            floodFill(x, y + 1);
+        }
     }
 }
