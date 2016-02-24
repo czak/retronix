@@ -40,7 +40,8 @@ public class Board {
     }
 
     public Field getField(int x, int y) {
-        return fields[y][x];
+        if (isWithinBounds(x, y)) return fields[y][x];
+        return null;
     }
 
     public void setField(int x, int y, Field field) {

@@ -14,8 +14,7 @@ public class Game {
     public Game(GameRenderer renderer) {
         this.renderer = renderer;
         this.board = new Board();
-        this.player = new Player(board);
-        this.enemies = Arrays.asList(new Enemy(board, Board.Field.SEA));
+        resetCharacters();
     }
 
     public void start() {
@@ -34,12 +33,15 @@ public class Game {
                         } catch (InterruptedException ignored) {}
                     } catch (Collision collision) {
                         board.clean();
-                        player = new Player(board);
-                        enemies = Arrays.asList(new Enemy(board, Board.Field.SEA));
+                        resetCharacters();
                     }
                 }
             }
         }).start();
+    }
+
+    public void setPlayerDirection(Direction direction) {
+        player.setDirection(direction);
     }
 
     private void update() throws Collision {
@@ -53,7 +55,13 @@ public class Game {
         }
     }
 
-    public void setPlayerDirection(Direction direction) {
-        player.setDirection(direction);
+    private void resetCharacters() {
+        this.player = new Player(board);
+        this.enemies = Arrays.asList(
+                new Enemy(board, Board.Field.LAND),
+                new Enemy(board, Board.Field.SEA),
+                new Enemy(board, Board.Field.SEA)
+        );
+
     }
 }
