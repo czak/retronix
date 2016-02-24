@@ -27,10 +27,11 @@ public class Game {
                     try {
                         update();
                         renderer.render(board, player, enemies);
+
+                        // TODO: Improve timeout for consistent FPS/game rate
                         try {
                             Thread.sleep(40);
-                        } catch (InterruptedException ignored) {
-                        }
+                        } catch (InterruptedException ignored) {}
                     } catch (Collision collision) {
                         // TODO: Clean up any unfinished wall
                         // TODO: Reset player & enemy positions
