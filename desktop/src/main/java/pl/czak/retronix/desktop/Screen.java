@@ -1,7 +1,8 @@
 package pl.czak.retronix.desktop;
 
-import pl.czak.retronix.*;
+import pl.czak.retronix.Board;
 import pl.czak.retronix.Board.Field;
+import pl.czak.retronix.GameRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by czak on 24/02/16.
  */
-public class Screen extends JPanel implements pl.czak.retronix.Renderer {
+public class Screen extends JPanel implements GameRenderer {
     private Board board;
 
     public Screen() {

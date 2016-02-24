@@ -1,11 +1,11 @@
 package pl.czak.retronix;
 
 public class Game {
-    private Renderer handler;
+    private GameRenderer renderer;
     private Board board;
 
-    public Game(Renderer handler) {
-        this.handler = handler;
+    public Game(GameRenderer renderer) {
+        this.renderer = renderer;
         this.board = new Board();
     }
 
@@ -14,7 +14,7 @@ public class Game {
             @Override
             public void run() {
                 for (int i = 0; i < 3; i++) {
-                    handler.render(board);
+                    renderer.render(board);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
