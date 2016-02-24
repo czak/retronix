@@ -9,7 +9,9 @@ import pl.czak.retronix.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by czak on 24/02/16.
@@ -51,7 +53,7 @@ public class Screen extends JPanel implements GameRenderer {
         for (Field[] row : board.getFields()) {
             rect.x = TX;
             for (Field f : row) {
-                g2.setColor(f == Field.LAND ? Color.GREEN : Color.BLUE);
+                g2.setColor(colorForField(f));
                 g2.fill(rect);
                 rect.x += FIELD_SIZE;
             }
@@ -70,6 +72,15 @@ public class Screen extends JPanel implements GameRenderer {
             rect.y = TY + enemy.getY() * FIELD_SIZE;
             g2.setColor(Color.RED);
             g2.fill(rect);
+        }
+    }
+
+    private Color colorForField(Field f) {
+        switch (f) {
+            case LAND:  return Color.GREEN;
+            case SEA:   return Color.BLUE;
+            case SAND:  return Color.PINK;
+            default:    return null;
         }
     }
 }

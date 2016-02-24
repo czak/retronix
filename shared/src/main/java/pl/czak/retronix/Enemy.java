@@ -18,16 +18,25 @@ public class Enemy extends GameCharacter {
     @Override
     public void move() {
         // Wall in my horizontal direction?
-        if (board.getField(x + direction.dx, y) != field) {
+        if (!isValidLocation(x + direction.dx, y)) {
             direction = direction.flippedX();
         }
 
         // Wall in my vertical direction?
-        if (board.getField(x, y + direction.dy) != field) {
+        if (!isValidLocation(x, y + direction.dy)) {
             direction = direction.flippedY();
+        }
+
+        // Running straight into a corner?
+        if (!isValidLocation(x + direction.dx, y + direction.dy)) {
+            direction = direction.flippedX().flippedY();
         }
 
         x += direction.dx;
         y += direction.dy;
+    }
+
+    private boolean isValidLocation(int x, int y) {
+        return board.getField(x, y) == field;
     }
 }

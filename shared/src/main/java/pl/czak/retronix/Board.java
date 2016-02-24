@@ -8,7 +8,7 @@ public class Board {
     private static final int DEFAULT_HEIGHT = 40;
 
     public enum Field {
-        LAND, SEA;
+        LAND, SEA, SAND;
     }
 
     private Field[][] fields;
@@ -36,6 +36,10 @@ public class Board {
 
     public Field getField(int x, int y) {
         return fields[y][x];
+    }
+
+    public void setField(int x, int y, Field field) {
+        fields[y][x] = field;
     }
 
     public int getWidth() {
