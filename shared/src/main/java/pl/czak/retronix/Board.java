@@ -34,6 +34,10 @@ public class Board {
         return fields;
     }
 
+    public Field getField(int x, int y) {
+        return fields[y][x];
+    }
+
     public int getWidth() {
         return width;
     }

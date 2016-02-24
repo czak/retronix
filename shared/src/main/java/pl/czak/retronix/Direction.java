@@ -14,4 +14,39 @@ public enum Direction {
         this.dx = dx;
         this.dy = dy;
     }
+
+    // TODO: Consider making Direction mutable
+    //       This will allow just updating dx/dy
+    //       Enum values will be replaced with static instances
+    public Direction flippedX() {
+        switch (this) {
+            // These two are unchanged
+            case NORTH: return NORTH;
+            case SOUTH: return SOUTH;
+            // These flip X direction
+            case EAST:  return WEST;
+            case WEST:  return EAST;
+            case NE:    return NW;
+            case SE:    return SW;
+            case NW:    return NE;
+            case SW:    return SE;
+            default:    return null;
+        }
+    }
+
+    public Direction flippedY() {
+        switch (this) {
+            // These two are unchanged
+            case EAST:  return EAST;
+            case WEST:  return WEST;
+            // These flip Y direction
+            case NORTH: return SOUTH;
+            case SOUTH: return NORTH;
+            case NE:    return SE;
+            case SE:    return NE;
+            case NW:    return SW;
+            case SW:    return NW;
+            default:    return null;
+        }
+    }
 }

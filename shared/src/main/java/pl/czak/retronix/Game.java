@@ -2,7 +2,6 @@ package pl.czak.retronix;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class Game {
     private GameRenderer renderer;
@@ -14,7 +13,7 @@ public class Game {
         this.renderer = renderer;
         this.board = new Board();
         this.player = new Player(board);
-        this.enemies = Arrays.asList(new Enemy(board));
+        this.enemies = Arrays.asList(new Enemy(board, Board.Field.SEA));
     }
 
     public void start() {
@@ -35,7 +34,9 @@ public class Game {
 
     private void update() {
         player.move();
-        for (Enemy enemy : enemies) enemy.move();
+        for (Enemy enemy : enemies) {
+            enemy.move();
+        }
     }
 
     public void setPlayerDirection(Direction direction) {
