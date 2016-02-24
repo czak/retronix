@@ -10,6 +10,7 @@ public class Game {
     private List<Enemy> enemies;
 
     public static class Collision extends Exception {}
+    public static class LevelComplete extends Exception {}
 
     public Game(GameRenderer renderer) {
         this.renderer = renderer;
@@ -32,7 +33,15 @@ public class Game {
                             Thread.sleep(40);
                         } catch (InterruptedException ignored) {}
                     } catch (Collision collision) {
+                        System.out.println("You're dead!");
+                        // TODO: Decrement lives
+                        // TODO: If last life, game over
                         board.clean();
+                        resetCharacters();
+                    } catch (LevelComplete e) {
+                        System.out.println("Level complete!");
+                        // TODO: Increment level
+                        board = new Board();
                         resetCharacters();
                     }
                 }
@@ -44,9 +53,11 @@ public class Game {
         player.setDirection(direction);
     }
 
-    private void update() throws Collision {
+    private void update() throws Collision, LevelComplete {
         if (player.move()) {
-            board.fill(enemies);
+            double area = board.fill(enemies);
+            System.out.println("Covered: " + area);
+            if (area >= 0.8) throw new LevelComplete();
         }
 
         for (Enemy enemy : enemies) {
@@ -57,6 +68,7 @@ public class Game {
 
     private void resetCharacters() {
         this.player = new Player(board);
+        // TODO: Make this dependent on the current level
         this.enemies = Arrays.asList(
                 new Enemy(board, Board.Field.LAND),
                 new Enemy(board, Board.Field.SEA),

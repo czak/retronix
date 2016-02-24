@@ -64,20 +64,28 @@ public class Board {
     /**
      * Fill walled areas with land
      * @param enemies
+     * @return part of sea covered with land as a double 0.0...1.0
      */
-    public void fill(List<Enemy> enemies) {
+    public double fill(List<Enemy> enemies) {
         for (Enemy enemy : enemies) {
             floodFill(enemy.x, enemy.y);
         }
 
+        int seaBlocks = 0;
+
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (fields[y][x] == Field.DEEP_SEA)
+                if (fields[y][x] == Field.DEEP_SEA) {
                     fields[y][x] = Field.SEA;
+                    seaBlocks++;
+                }
                 else
                     fields[y][x] = Field.LAND;
             }
         }
+
+        int entireSea = (width - 4) * (height - 4);
+        return 1.0 - (double) seaBlocks / entireSea;
     }
 
     /**

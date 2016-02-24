@@ -17,6 +17,8 @@ public class Player extends GameCharacter {
         int nx = x + direction.dx;
         int ny = y + direction.dy;
 
+        // TODO: Driving into the sand is a collision and should kill me
+
         boolean res = false;
 
         // Definitely stop if trying to move outside bounds
