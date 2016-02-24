@@ -3,6 +3,7 @@ package pl.czak.retronix.desktop;
 import pl.czak.retronix.Board;
 import pl.czak.retronix.Board.Field;
 import pl.czak.retronix.GameRenderer;
+import pl.czak.retronix.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class Screen extends JPanel implements GameRenderer {
     private Board board;
+    private Player player;
 
     public Screen() {
         setPreferredSize(new Dimension(500, 300));
@@ -20,8 +22,9 @@ public class Screen extends JPanel implements GameRenderer {
     }
 
     @Override
-    public void render(Board board) {
+    public void render(Board board, Player player) {
         this.board = board;
+        this.player = player;
         repaint();
     }
 
@@ -40,6 +43,7 @@ public class Screen extends JPanel implements GameRenderer {
         Graphics2D g2 = (Graphics2D) g;
         Rectangle2D.Double rect = new Rectangle2D.Double(TX, TY, FIELD_SIZE, FIELD_SIZE);
 
+        // Draw the board
         for (Field[] row : board.getFields()) {
             rect.x = TX;
             for (Field f : row) {
@@ -49,5 +53,11 @@ public class Screen extends JPanel implements GameRenderer {
             }
             rect.y += FIELD_SIZE;
         }
+
+        // Draw the player
+        rect.x = TX + player.getX() * FIELD_SIZE;
+        rect.y = TY + player.getY() * FIELD_SIZE;
+        g2.setColor(Color.MAGENTA);
+        g2.fill(rect);
     }
 }

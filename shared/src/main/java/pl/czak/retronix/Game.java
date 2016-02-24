@@ -3,27 +3,35 @@ package pl.czak.retronix;
 public class Game {
     private GameRenderer renderer;
     private Board board;
+    private Player player;
 
     public Game(GameRenderer renderer) {
         this.renderer = renderer;
         this.board = new Board();
+        this.player = new Player(board);
     }
 
     public void start() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < 3; i++) {
-                    renderer.render(board);
+                // TODO: Provide a way to exit the loop
+                while (true) {
+                    update();
+                    renderer.render(board, player);
                     try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-
-                    }
+                        Thread.sleep(20);
+                    } catch (InterruptedException ignored) {}
                 }
-
-                System.out.println("Game over");
             }
         }).start();
+    }
+
+    private void update() {
+        player.move();
+    }
+
+    public void setPlayerDirection(Direction direction) {
+        player.setDirection(direction);
     }
 }
