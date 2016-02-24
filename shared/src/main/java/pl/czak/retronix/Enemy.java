@@ -1,18 +1,33 @@
 package pl.czak.retronix;
 
+import java.util.Random;
+
 /**
  * Created by czak on 24/02/16.
  */
 public class Enemy extends GameCharacter {
+    private static final Random random = new Random();
+
     private Board.Field type;
 
     public Enemy(Board board, Board.Field type) {
         super(board);
         this.type = type;
-        // TODO: Random location & direction
-        this.x = 2;
-        this.y = 2;
-        this.direction = Direction.SE;
+
+        // Place randomly & ensure I'm on correct land
+        do {
+            this.x = random.nextInt(board.getWidth());
+            this.y = random.nextInt(board.getHeight());
+        } while (board.getField(x, y) != type);
+
+        // Randomly pick a direction appropriate for enemies
+        // (i.e. diagonal only)
+        this.direction = new Direction[] {
+                Direction.NE,
+                Direction.SE,
+                Direction.NW,
+                Direction.SW
+        }[random.nextInt(4)];
     }
 
     @Override

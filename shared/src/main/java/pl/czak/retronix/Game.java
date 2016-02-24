@@ -33,9 +33,9 @@ public class Game {
                             Thread.sleep(40);
                         } catch (InterruptedException ignored) {}
                     } catch (Collision collision) {
-                        // TODO: Clean up any unfinished wall
-                        // TODO: Reset player & enemy positions
-                        System.out.println("You're dead!");
+                        board.clean();
+                        player = new Player(board);
+                        enemies = Arrays.asList(new Enemy(board, Board.Field.SEA));
                     }
                 }
             }

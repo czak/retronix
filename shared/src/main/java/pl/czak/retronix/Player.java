@@ -7,7 +7,7 @@ public class Player extends GameCharacter {
     public Player(Board board) {
         super(board);
         this.x = board.getWidth() / 2;
-        this.y = board.getHeight() - 2;
+        this.y = 0;
     }
 
     @Override

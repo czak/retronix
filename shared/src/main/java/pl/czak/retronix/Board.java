@@ -79,6 +79,18 @@ public class Board {
         }
     }
 
+    /**
+     * Remove any remaining sand walls
+     */
+    public void clean() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (fields[y][x] == Field.SAND)
+                    fields[y][x] = Field.SEA;
+            }
+        }
+    }
+
     private void floodFill(int x, int y) {
         if (fields[y][x] == Field.SEA) {
             fields[y][x] = Field.DEEP_SEA;
