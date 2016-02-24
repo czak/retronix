@@ -9,6 +9,8 @@ public class Game {
     private Player player;
     private List<Enemy> enemies;
 
+    public static class Collision extends Exception {}
+
     public Game(GameRenderer renderer) {
         this.renderer = renderer;
         this.board = new Board();
@@ -22,22 +24,30 @@ public class Game {
             public void run() {
                 // TODO: Provide a way to exit the loop
                 while (true) {
-                    update();
-                    renderer.render(board, player, enemies);
                     try {
-                        Thread.sleep(40);
-                    } catch (InterruptedException ignored) {}
+                        update();
+                        renderer.render(board, player, enemies);
+                        try {
+                            Thread.sleep(40);
+                        } catch (InterruptedException ignored) {
+                        }
+                    } catch (Collision collision) {
+                        // TODO: Clean up any unfinished wall
+                        // TODO: Reset player & enemy positions
+                        System.out.println("You're dead!");
+                    }
                 }
             }
         }).start();
     }
 
-    private void update() {
+    private void update() throws Collision {
         if (player.move()) {
             board.fill(enemies);
         }
 
         for (Enemy enemy : enemies) {
+            enemy.detectCollision(board, player);
             enemy.move();
         }
     }
