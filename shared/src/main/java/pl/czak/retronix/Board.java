@@ -3,9 +3,9 @@ package pl.czak.retronix;
 /**
  * Created by czak on 24/02/16.
  */
-public class Map {
-    private static final int DEFAULT_WIDTH = 30;
-    private static final int DEFAULT_HEIGHT = 6;
+public class Board {
+    private static final int DEFAULT_WIDTH = 70;
+    private static final int DEFAULT_HEIGHT = 40;
 
     public enum Field {
         LAND, SEA;
@@ -16,7 +16,7 @@ public class Map {
     private int width;
     private int height;
 
-    public Map() {
+    public Board() {
         width = DEFAULT_WIDTH;
         height = DEFAULT_HEIGHT;
 
@@ -32,5 +32,13 @@ public class Map {
 
     public Field[][] getFields() {
         return fields;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

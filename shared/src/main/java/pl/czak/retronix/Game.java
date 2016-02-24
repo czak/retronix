@@ -1,20 +1,20 @@
 package pl.czak.retronix;
 
 public class Game {
-    private GameHandler handler;
-    private Map map;
+    private Renderer handler;
+    private Board board;
 
-    public Game(GameHandler handler) {
+    public Game(Renderer handler) {
         this.handler = handler;
-        this.map = new Map();
+        this.board = new Board();
     }
 
     public void start() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < 1; i++) {
-                    handler.render(map);
+                for (int i = 0; i < 3; i++) {
+                    handler.render(board);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
