@@ -14,17 +14,25 @@ public class Player extends GameCharacter {
     public void move() {
         if (direction == null) return;
 
+        int nx = x + direction.dx;
+        int ny = y + direction.dy;
+
         // Definitely stop if trying to move outside bounds
-        if (!board.isWithinBounds(x + direction.dx, y + direction.dy)) {
+        if (!board.isWithinBounds(nx, ny)) {
             direction = null;
             return;
         }
 
         // If moving across sea, leave a bag of sand behind
-        if (board.getField(x, y) == Board.Field.SEA)
+        if (board.getField(x, y) == Board.Field.SEA) {
             board.setField(x, y, Board.Field.SAND);
 
-        x += direction.dx;
-        y += direction.dy;
+            // If re-entering dry land, stop immediately
+            if (board.getField(nx, ny) == Board.Field.LAND)
+                direction = null;
+        }
+
+        x = nx;
+        y = ny;
     }
 }

@@ -32,8 +32,10 @@ public class Enemy extends GameCharacter {
             direction = direction.flippedX().flippedY();
         }
 
-        x += direction.dx;
-        y += direction.dy;
+        if (isValidLocation(x + direction.dx, y + direction.dy)) {
+            x += direction.dx;
+            y += direction.dy;
+        }
     }
 
     private boolean isValidLocation(int x, int y) {
