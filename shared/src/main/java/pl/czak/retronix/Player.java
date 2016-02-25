@@ -11,13 +11,15 @@ public class Player extends GameCharacter {
     }
 
     @Override
-    public boolean move() {
+    public boolean move() throws Game.Collision {
         if (direction == null) return false;
 
         int nx = x + direction.dx;
         int ny = y + direction.dy;
 
-        // TODO: Driving into the sand is a collision and should kill me
+        // Walking back into the sand is not allowed
+        if (board.getField(nx, ny) == Board.Field.SAND)
+            throw new Game.Collision();
 
         boolean res = false;
 

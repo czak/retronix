@@ -25,5 +25,5 @@ public abstract class GameCharacter {
         this.direction = direction;
     }
 
-    public abstract boolean move();
+    public abstract boolean move() throws Game.Collision;
 }
