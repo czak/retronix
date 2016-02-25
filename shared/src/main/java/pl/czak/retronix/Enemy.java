@@ -30,8 +30,11 @@ public class Enemy extends GameCharacter {
         }[random.nextInt(4)];
     }
 
-    @Override
-    public boolean move() {
+    /**
+     * Bounce off walls and correct course.
+     * Needs to be called before detectCollision
+     */
+    public void bounce() {
         // Wall in my horizontal direction?
         if (!isValidLocation(x + direction.dx, y)) {
             direction = direction.flippedX();
@@ -46,21 +49,22 @@ public class Enemy extends GameCharacter {
         if (!isValidLocation(x + direction.dx, y + direction.dy)) {
             direction = direction.flippedX().flippedY();
         }
+    }
 
+    @Override
+    public boolean move() {
         if (isValidLocation(x + direction.dx, y + direction.dy)) {
             x += direction.dx;
             y += direction.dy;
         }
-        return false;
-    }
 
-    private boolean isValidLocation(int x, int y) {
-        return board.getField(x, y) == type;
+        return false;
     }
 
     /**
      * Check if this enemy's movement is about to cause a collision.
      * Will throw Game.Collision if an upcoming collision is detected.
+     * Before calling ensure the direction is correctly set by now.
      * @param board
      * @param player
      * @throws Game.Collision
@@ -79,5 +83,9 @@ public class Enemy extends GameCharacter {
         if (type == Board.Field.SEA &&
                 board.getField(nx, ny) == Board.Field.SAND)
             throw new Game.Collision();
+    }
+
+    private boolean isValidLocation(int x, int y) {
+        return board.getField(x, y) == type;
     }
 }

@@ -61,6 +61,7 @@ public class Game {
         }
 
         for (Enemy enemy : enemies) {
+            enemy.bounce();
             enemy.detectCollision(board, player);
             enemy.move();
         }
