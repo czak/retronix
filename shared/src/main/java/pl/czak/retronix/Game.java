@@ -30,16 +30,19 @@ public class Game {
 
                         // TODO: Improve timeout for consistent FPS/game rate
                         try {
-                            Thread.sleep(40);
+                            Thread.sleep(200);
                         } catch (InterruptedException ignored) {}
                     } catch (Collision collision) {
+                        renderer.render(board, player, enemies);
                         System.out.println("You're dead!");
+                        try { Thread.sleep(2000); } catch (InterruptedException ignored) { }
                         // TODO: Decrement lives
                         // TODO: If last life, game over
                         board.clean();
                         resetCharacters();
                     } catch (LevelComplete e) {
                         System.out.println("Level complete!");
+                        try { Thread.sleep(2000); } catch (InterruptedException ignored) { }
                         // TODO: Increment level
                         board = new Board();
                         resetCharacters();
@@ -61,8 +64,6 @@ public class Game {
         }
 
         for (Enemy enemy : enemies) {
-            enemy.bounce();
-            enemy.detectCollision(board, player);
             enemy.move();
         }
     }
@@ -71,9 +72,8 @@ public class Game {
         this.player = new Player(board);
         // TODO: Make this dependent on the current level
         this.enemies = Arrays.asList(
-                new Enemy(board, Board.Field.LAND),
-                new Enemy(board, Board.Field.SEA),
-                new Enemy(board, Board.Field.SEA)
+                new LandEnemy(board, player),
+                new SeaEnemy(board, player)
         );
 
     }

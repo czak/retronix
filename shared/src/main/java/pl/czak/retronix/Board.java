@@ -6,8 +6,8 @@ import java.util.List;
  * Created by czak on 24/02/16.
  */
 public class Board {
-    private static final int DEFAULT_WIDTH = 70;
-    private static final int DEFAULT_HEIGHT = 40;
+    private static final int DEFAULT_WIDTH = 16;
+    private static final int DEFAULT_HEIGHT = 10;
 
     public enum Field {
         LAND, SEA, SAND,

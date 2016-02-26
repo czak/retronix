@@ -5,20 +5,24 @@ import java.util.Random;
 /**
  * Created by czak on 24/02/16.
  */
-public class Enemy extends GameCharacter {
-    private static final Random random = new Random();
+public abstract class Enemy extends GameCharacter {
+    protected static final Random random = new Random();
 
-    private Board.Field type;
+    /**
+     * Hold on to the player for collision detection
+     */
+    protected Player player;
 
-    public Enemy(Board board, Board.Field type) {
+    public Enemy(Board board, Player player) {
         super(board);
-        this.type = type;
 
-        // Place randomly & ensure I'm on correct land
+        this.player = player;
+
+        // Place randomly & ensure I'm on correct turf
         do {
             this.x = random.nextInt(board.getWidth());
             this.y = random.nextInt(board.getHeight());
-        } while (board.getField(x, y) != type);
+        } while (!isValidLocation(x, y));
 
         // Randomly pick a direction appropriate for enemies
         // (i.e. diagonal only)
@@ -32,9 +36,8 @@ public class Enemy extends GameCharacter {
 
     /**
      * Bounce off walls and correct course.
-     * Needs to be called before detectCollision
      */
-    public void bounce() {
+    protected void bounce() {
         // Wall in my horizontal direction?
         if (!isValidLocation(x + direction.dx, y)) {
             direction = direction.flippedX();
@@ -51,41 +54,13 @@ public class Enemy extends GameCharacter {
         }
     }
 
-    @Override
-    public boolean move() {
-        if (isValidLocation(x + direction.dx, y + direction.dy)) {
-            x += direction.dx;
-            y += direction.dy;
-        }
-
-        return false;
-    }
+    protected abstract boolean isValidLocation(int x, int y);
 
     /**
-     * Check if this enemy's movement is about to cause a collision.
-     * Will throw Game.Collision if an upcoming collision is detected.
-     * Before calling ensure the direction is correctly set by now.
-     * @param board
-     * @param player
-     * @throws Game.Collision
+     * Is (x, y) my turf and am I hitting the player?
      */
-    public void detectCollision(Board board, Player player) throws Game.Collision {
-        final int nx = x + direction.dx;
-        final int ny = y + direction.dy;
-
-        // Am I about to collide with player on my turf?
-        if (type == board.getField(nx, ny) &&
-                nx == player.x && ny == player.y)
-            throw new Game.Collision();
-
-        // Am I a sea creature about to collide
-        // with an incomplete sand wall?
-        if (type == Board.Field.SEA &&
-                board.getField(nx, ny) == Board.Field.SAND)
-            throw new Game.Collision();
-    }
-
-    private boolean isValidLocation(int x, int y) {
-        return board.getField(x, y) == type;
+    protected boolean isPlayerHit(int x, int y) {
+        return isValidLocation(x, y) &&
+                player.x == x && player.y == y;
     }
 }
