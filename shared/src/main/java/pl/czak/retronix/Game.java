@@ -18,6 +18,7 @@ public class Game {
         board.setPlayer(new Player(BOARD_WIDTH / 2, 0));
         board.setEnemies(Arrays.<Enemy>asList(
                 new LandEnemy(board.randomPosition(Board.Field.LAND), Direction.randomDiagonal()),
+                new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()),
                 new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal())
         ));
     }
@@ -29,6 +30,7 @@ public class Game {
                 // TODO: Provide a way to exit the loop
 
                 boolean dead = false;
+                boolean levelComplete = false;
 
                 while (true) {
                     try {
@@ -36,14 +38,28 @@ public class Game {
                     } catch (Board.Collision e) {
                         e.printStackTrace();
                         dead = true;
+                    } catch (Board.LevelComplete e) {
+                        System.out.println("Level complete");
+                        levelComplete = true;
                     }
 
                     renderer.render(board);
 
-                    // TODO: Improve timeout for consistent FPS/game rate
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ignored) {}
+                    // Handle level complete
+                    if (levelComplete) {
+                        try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
+
+                        board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
+                        board.setPlayer(new Player(BOARD_WIDTH / 2, 0));
+                        board.setEnemies(Arrays.<Enemy>asList(
+                                new LandEnemy(board.randomPosition(Board.Field.LAND), Direction.randomDiagonal()),
+                                new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()),
+                                new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal())
+                        ));
+
+                        levelComplete = false;
+                        continue;
+                    }
 
                     // Handle death
                     if (dead) {
@@ -52,8 +68,15 @@ public class Game {
                         board.clean();
                         board.setPlayer(new Player(BOARD_WIDTH / 2, 0));
                         board.resetEnemies();
+
                         dead = false;
+                        continue;
                     }
+
+                    // TODO: Improve timeout for consistent FPS/game rate
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ignored) {}
                 }
             }
         }).start();

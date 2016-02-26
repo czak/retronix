@@ -10,6 +10,7 @@ import java.util.Random;
 public class Board {
     private static final Random RANDOM = new Random();
     private static final int LAND_BORDER_WIDTH = 2;
+    private static final double FILL_THRESHOLD = 0.8;
 
     public enum Field {
         LAND, SEA, SAND,
@@ -43,12 +44,12 @@ public class Board {
     /**
      * Perform one turn of the movements
      */
-    public void update() throws Collision {
+    public void update() throws Collision, LevelComplete {
         movePlayer();
         moveEnemies();
     }
 
-    private void movePlayer() throws Collision {
+    private void movePlayer() throws Collision, LevelComplete {
         if (player.getDirection() == null) return;
 
         Position position = player.getPosition();
@@ -156,7 +157,7 @@ public class Board {
     /**
      * Fill walled areas with land
      */
-    public void fill() {
+    public void fill() throws LevelComplete {
         // Mark all enemy-occupied areas as DEEP_SEA
         for (Enemy enemy : enemies) {
             Position pos = enemy.getPosition();
@@ -164,15 +165,23 @@ public class Board {
         }
 
         // ...and set everything else to LAND
+        int remainingSeaFields = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (fields[y][x] == Field.DEEP_SEA) {
                     fields[y][x] = Field.SEA;
+                    remainingSeaFields++;
                 }
                 else
                     fields[y][x] = Field.LAND;
             }
         }
+
+        // Break out if we've passed FILL_THRESHOLD
+        int totalSeaFields = (width - 2*LAND_BORDER_WIDTH) * (height - 2*LAND_BORDER_WIDTH);
+        double ratio = 1.0 - ((double) remainingSeaFields / totalSeaFields);
+        if (ratio >= FILL_THRESHOLD)
+            throw new LevelComplete();
     }
 
     /**
@@ -280,4 +289,5 @@ public class Board {
     }
 
     public static class Collision extends Exception {}
+    public static class LevelComplete extends Exception {}
 }
