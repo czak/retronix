@@ -10,6 +10,10 @@ public abstract class Enemy extends GameCharacter {
         super(position, direction);
     }
 
+    public Enemy(int x, int y, Direction direction) {
+        super(x, y, direction);
+    }
+
     abstract Board.Field getNativeField();
 
     abstract void detectCollision(Board.Field field) throws Board.Collision;

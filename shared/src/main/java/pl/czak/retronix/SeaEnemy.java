@@ -8,6 +8,10 @@ public class SeaEnemy extends Enemy {
         super(position, direction);
     }
 
+    public SeaEnemy(int x, int y, Direction direction) {
+        super(x, y, direction);
+    }
+
     @Override
     Board.Field getNativeField() {
         return Board.Field.SEA;

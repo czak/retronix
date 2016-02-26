@@ -142,15 +142,21 @@ public class Board {
         Direction direction = enemy.getDirection();
 
         // Is it a direct hit?
-        if (position.movedTo(direction).equals(player.getPosition()))
+        Position nextPosition = position.movedTo(direction);
+        if (getField(nextPosition) == enemy.getNativeField() &&
+                nextPosition.equals(player.getPosition()))
             throw new Collision();
 
         // Is it a hit from the side?
-        if (position.movedHorizontally(direction).equals(player.getPosition()))
+        nextPosition = position.movedHorizontally(direction);
+        if (getField(nextPosition) == enemy.getNativeField() &&
+                nextPosition.equals(player.getPosition()))
             throw new Collision();
 
         // Is it a hit from top or bottom?
-        if (position.movedVertically(direction).equals(player.getPosition()))
+        nextPosition = position.movedVertically(direction);
+        if (getField(nextPosition) == enemy.getNativeField() &&
+                nextPosition.equals(player.getPosition()))
             throw new Collision();
     }
 
@@ -208,7 +214,7 @@ public class Board {
         return fields;
     }
 
-    private Field getField(Position position) {
+    public Field getField(Position position) {
         if (isWithinBounds(position))
             return fields[position.y][position.x];
         else

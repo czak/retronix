@@ -8,6 +8,10 @@ public class LandEnemy extends Enemy {
         super(position, direction);
     }
 
+    public LandEnemy(int x, int y, Direction direction) {
+        super(x, y, direction);
+    }
+
     @Override
     Board.Field getNativeField() {
         return Board.Field.LAND;
