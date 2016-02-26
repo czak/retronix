@@ -1,5 +1,7 @@
 package pl.czak.retronix;
 
+import java.util.Random;
+
 /**
  * Created by czak on 24/02/16.
  */
@@ -7,8 +9,10 @@ public enum Direction {
     NORTH(0, -1), SOUTH(0, 1), EAST(1, 0), WEST(-1, 0),
     NE(1, -1), SE(1, 1), NW(-1, -1), SW(-1, 1);
 
-    public int dx;
-    public int dy;
+    private static final Direction[] DIAGONALS = { NE, SE, NW, SW };
+
+    public final int dx;
+    public final int dy;
 
     Direction(int dx, int dy) {
         this.dx = dx;
@@ -48,5 +52,13 @@ public enum Direction {
             case SW:    return NW;
             default:    return null;
         }
+    }
+
+    /**
+     * Return one of the diagonal directions at random.
+     * @return one of NE, SE, NW, or SW
+     */
+    public static Direction randomDiagonal() {
+        return DIAGONALS[new Random().nextInt(4)];
     }
 }

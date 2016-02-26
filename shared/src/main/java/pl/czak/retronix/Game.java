@@ -1,21 +1,25 @@
 package pl.czak.retronix;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class Game {
+    private static final int BOARD_WIDTH = 70;
+    private static final int BOARD_HEIGHT = 40;
+
     private GameRenderer renderer;
     private Board board;
-    private Player player;
-    private List<Enemy> enemies;
 
-    public static class Collision extends Exception {}
-    public static class LevelComplete extends Exception {}
+    // TODO: Game keeps score, lives, current level
 
     public Game(GameRenderer renderer) {
         this.renderer = renderer;
-        this.board = new Board();
-        resetCharacters();
+
+        board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
+        board.setPlayer(new Player(BOARD_WIDTH / 2, 0));
+        board.setEnemies(Arrays.<Enemy>asList(
+                new LandEnemy(board.randomPosition(Board.Field.LAND), Direction.randomDiagonal()),
+                new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal())
+        ));
     }
 
     public void start() {
@@ -23,29 +27,32 @@ public class Game {
             @Override
             public void run() {
                 // TODO: Provide a way to exit the loop
+
+                boolean dead = false;
+
                 while (true) {
                     try {
-                        update();
-                        renderer.render(board, player, enemies);
+                        board.update();
+                    } catch (Board.Collision e) {
+                        e.printStackTrace();
+                        dead = true;
+                    }
 
-                        // TODO: Improve timeout for consistent FPS/game rate
-                        try {
-                            Thread.sleep(200);
-                        } catch (InterruptedException ignored) {}
-                    } catch (Collision collision) {
-                        renderer.render(board, player, enemies);
-                        System.out.println("You're dead!");
-                        try { Thread.sleep(2000); } catch (InterruptedException ignored) { }
-                        // TODO: Decrement lives
-                        // TODO: If last life, game over
+                    renderer.render(board);
+
+                    // TODO: Improve timeout for consistent FPS/game rate
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ignored) {}
+
+                    // Handle death
+                    if (dead) {
+                        try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
+
                         board.clean();
-                        resetCharacters();
-                    } catch (LevelComplete e) {
-                        System.out.println("Level complete!");
-                        try { Thread.sleep(2000); } catch (InterruptedException ignored) { }
-                        // TODO: Increment level
-                        board = new Board();
-                        resetCharacters();
+                        board.setPlayer(new Player(BOARD_WIDTH / 2, 0));
+                        board.resetEnemies();
+                        dead = false;
                     }
                 }
             }
@@ -53,28 +60,6 @@ public class Game {
     }
 
     public void setPlayerDirection(Direction direction) {
-        player.setDirection(direction);
-    }
-
-    private void update() throws Collision, LevelComplete {
-        if (player.move()) {
-            double area = board.fill(enemies);
-            System.out.println("Covered: " + area);
-            if (area >= 0.8) throw new LevelComplete();
-        }
-
-        for (Enemy enemy : enemies) {
-            enemy.move();
-        }
-    }
-
-    private void resetCharacters() {
-        this.player = new Player(board);
-        // TODO: Make this dependent on the current level
-        this.enemies = Arrays.asList(
-                new LandEnemy(board, player),
-                new SeaEnemy(board, player)
-        );
-
+        board.getPlayer().setDirection(direction);
     }
 }

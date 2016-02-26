@@ -1,25 +1,18 @@
 package pl.czak.retronix.desktop;
 
-import pl.czak.retronix.Board;
+import pl.czak.retronix.*;
 import pl.czak.retronix.Board.Field;
-import pl.czak.retronix.Enemy;
-import pl.czak.retronix.GameRenderer;
-import pl.czak.retronix.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by czak on 24/02/16.
  */
 public class Screen extends JPanel implements GameRenderer {
     private Board board;
-    private Player player;
-    private List<Enemy> enemies;
 
     public Screen() {
         setPreferredSize(new Dimension(500, 300));
@@ -27,10 +20,8 @@ public class Screen extends JPanel implements GameRenderer {
     }
 
     @Override
-    public void render(Board board, Player player, List<Enemy> enemies) {
+    public void render(Board board) {
         this.board = board;
-        this.player = player;
-        this.enemies = enemies;
         repaint();
     }
 
@@ -61,15 +52,17 @@ public class Screen extends JPanel implements GameRenderer {
         }
 
         // Draw the player
-        rect.x = TX + player.getX() * FIELD_SIZE;
-        rect.y = TY + player.getY() * FIELD_SIZE;
+        Position pos = board.getPlayer().getPosition();
+        rect.x = TX + pos.x * FIELD_SIZE;
+        rect.y = TY + pos.y * FIELD_SIZE;
         g2.setColor(Color.MAGENTA);
         g2.fill(rect);
 
         // Draw the enemies
-        for (Enemy enemy : enemies) {
-            rect.x = TX + enemy.getX() * FIELD_SIZE;
-            rect.y = TY + enemy.getY() * FIELD_SIZE;
+        for (Enemy enemy : board.getEnemies()) {
+            pos = enemy.getPosition();
+            rect.x = TX + pos.x * FIELD_SIZE;
+            rect.y = TY + pos.y * FIELD_SIZE;
             g2.setColor(Color.RED);
             g2.fill(rect);
         }
