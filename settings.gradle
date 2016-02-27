@@ -1,1 +1,1 @@
-include 'desktop', 'shared'
+include 'android', 'desktop', 'shared'

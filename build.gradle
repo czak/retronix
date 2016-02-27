@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+    }
+}
+
 project(':desktop') {
     apply plugin: 'application'
     mainClassName = 'pl.czak.retronix.desktop.Application'
@@ -10,4 +19,12 @@ project(':shared') {
     apply plugin: 'java'
     sourceCompatibility = JavaVersion.VERSION_1_7
     compileJava.options.bootClasspath = "$System.env.JAVA7_HOME/jre/lib/rt.jar"
+}
+
+project(':android') {
+    apply plugin: 'com.android.application'
+    android {
+        compileSdkVersion 23
+        buildToolsVersion '23.0.2'
+    }
 }
