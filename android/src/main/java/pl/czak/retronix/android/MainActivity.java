@@ -1,8 +1,10 @@
-package pl.czak.retronix;
+package pl.czak.retronix.android;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import pl.czak.retronix.Game;
 
 public class MainActivity extends Activity
 {
@@ -10,9 +12,10 @@ public class MainActivity extends Activity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TextView label = new TextView(this);
-        label.setText("Hello world!");
+        Screen screen = new Screen(this);
+        setContentView(screen);
 
-        setContentView(label);
+        Game game = new Game(screen);
+        game.start();
     }
 }
