@@ -2,17 +2,15 @@ package pl.czak.retronix.android;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import pl.czak.retronix.GameRenderer;
 import pl.czak.retronix.engine.GameState;
 
 
 /**
  * Created by czak on 14/04/16.
  */
-public class Screen extends SurfaceView implements GameRenderer, SurfaceHolder.Callback {
+public class Screen extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder holder;
     private boolean ready;
 
@@ -22,7 +20,6 @@ public class Screen extends SurfaceView implements GameRenderer, SurfaceHolder.C
         holder.addCallback(this);
     }
 
-    @Override
     public void render(GameState state) {
         if (!ready) return;
 

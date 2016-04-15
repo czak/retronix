@@ -1,6 +1,7 @@
 package pl.czak.retronix;
 
 import android.view.KeyEvent;
+import pl.czak.retronix.android.Screen;
 import pl.czak.retronix.engine.GameState;
 
 import java.util.Arrays;
@@ -15,12 +16,12 @@ public class GameEngine {
             KeyEvent.KEYCODE_DPAD_RIGHT
     ));
 
-    private GameRenderer renderer;
+    private Screen screen;
     private GameState state;
     private KeyEvent event;
 
-    public GameEngine(GameRenderer renderer) {
-        this.renderer = renderer;
+    public GameEngine(Screen screen) {
+        this.screen = screen;
     }
 
     public void setState(GameState state) {
@@ -47,7 +48,7 @@ public class GameEngine {
 
                     state.update();
 
-                    renderer.render(state);
+                    screen.render(state);
 
                     // TODO: Improve timeout for consistent FPS/game rate
                     try {
