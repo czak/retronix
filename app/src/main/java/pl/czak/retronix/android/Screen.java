@@ -18,6 +18,7 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
         super(context);
         holder = getHolder();
         holder.addCallback(this);
+        holder.setFixedSize(1280, 720);
     }
 
     public void draw(State state) {
@@ -40,6 +41,6 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        ready = false;
     }
 }

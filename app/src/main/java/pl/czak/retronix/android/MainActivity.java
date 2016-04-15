@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import pl.czak.retronix.Game;
-import pl.czak.retronix.states.PlayState;
+import pl.czak.retronix.states.WelcomeState;
 
 public class MainActivity extends Activity {
     private Game game;
@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         setContentView(screen);
 
         game = new Game();
-        game.setCurrentState(new PlayState());
+        game.setCurrentState(new WelcomeState());
 
         // Main loop in a separate thread
         new Thread(new Runnable() {
