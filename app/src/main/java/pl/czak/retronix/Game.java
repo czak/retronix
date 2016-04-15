@@ -1,7 +1,7 @@
 package pl.czak.retronix;
 
 import android.view.KeyEvent;
-import pl.czak.retronix.engine.GameState;
+import pl.czak.retronix.engine.State;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,33 +15,33 @@ public class Game {
             KeyEvent.KEYCODE_DPAD_RIGHT
     ));
 
-    private GameState state;
-    private KeyEvent event;
+    private State currentState;
+    private KeyEvent lastKeyEvent;
 
     public boolean setKeyEvent(KeyEvent event) {
         if (HANDLED_KEYCODES.contains(event.getKeyCode())) {
-            this.event = event;
+            this.lastKeyEvent = event;
             return true;
         }
         return false;
     }
 
     public void handleEvents() {
-        if (event != null) {
-            state.handleKeyEvent(event);
-            event = null;
+        if (lastKeyEvent != null) {
+            currentState.handleKeyEvent(lastKeyEvent);
+            lastKeyEvent = null;
         }
     }
 
     public void update() {
-        state.update();
+        currentState.update();
     }
 
-    public GameState getState() {
-        return state;
+    public State getCurrentState() {
+        return currentState;
     }
 
-    public void setState(GameState state) {
-        this.state = state;
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
     }
 }

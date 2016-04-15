@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import pl.czak.retronix.engine.GameState;
+import pl.czak.retronix.engine.State;
 
 
 /**
@@ -20,7 +20,7 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
         holder.addCallback(this);
     }
 
-    public void draw(GameState state) {
+    public void draw(State state) {
         if (!ready) return;
 
         Canvas canvas = holder.lockCanvas();

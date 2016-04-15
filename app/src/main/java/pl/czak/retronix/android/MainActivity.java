@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         setContentView(screen);
 
         game = new Game();
-        game.setState(new PlayState());
+        game.setCurrentState(new PlayState());
 
         // Main loop in a separate thread
         new Thread(new Runnable() {
@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
                 while (true) {
                     game.handleEvents();
                     game.update();
-                    screen.draw(game.getState());
+                    screen.draw(game.getCurrentState());
 
                     // TODO: Improve timeout for consistent FPS/game rate
                     try {

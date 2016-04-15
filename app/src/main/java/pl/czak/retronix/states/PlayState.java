@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.KeyEvent;
-import pl.czak.retronix.engine.GameState;
+import pl.czak.retronix.engine.State;
 import pl.czak.retronix.models.*;
 
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 /**
  * Created by czak on 15/04/16.
  */
-public class PlayState extends GameState {
+public class PlayState extends State {
     private static final int BOARD_WIDTH = 70;
     private static final int BOARD_HEIGHT = 40;
 
