@@ -1,7 +1,5 @@
 package pl.czak.retronix.engine;
 
-import java.awt.*;
-
 /**
  * Created by czak on 15/04/16.
  */
