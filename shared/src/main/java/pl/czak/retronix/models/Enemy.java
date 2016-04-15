@@ -1,6 +1,4 @@
-package pl.czak.retronix;
-
-import java.util.Random;
+package pl.czak.retronix.models;
 
 /**
  * Created by czak on 24/02/16.
@@ -14,7 +12,7 @@ public abstract class Enemy extends GameCharacter {
         super(x, y, direction);
     }
 
-    abstract Board.Field getNativeField();
+    public abstract Board.Field getNativeField();
 
-    abstract void detectCollision(Board.Field field) throws Board.Collision;
+    public abstract void detectCollision(Board.Field field) throws Board.Collision;
 }

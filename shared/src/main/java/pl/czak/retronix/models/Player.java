@@ -1,4 +1,4 @@
-package pl.czak.retronix;
+package pl.czak.retronix.models;
 
 /**
  * Created by czak on 24/02/16.

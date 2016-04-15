@@ -7,20 +7,22 @@ import android.view.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import pl.czak.retronix.Direction;
-import pl.czak.retronix.Game;
+import pl.czak.retronix.engine.GameEvent;
+import pl.czak.retronix.models.Direction;
+import pl.czak.retronix.GameEngine;
+import pl.czak.retronix.states.PlayState;
 
 public class MainActivity extends Activity {
-    private static Map<Integer, Direction> DIRECTION_MAP = new HashMap<>();
+    private static Map<Integer, GameEvent> EVENT_MAP = new HashMap<>();
 
     static {
-        DIRECTION_MAP.put(KeyEvent.KEYCODE_DPAD_UP, Direction.NORTH);
-        DIRECTION_MAP.put(KeyEvent.KEYCODE_DPAD_DOWN, Direction.SOUTH);
-        DIRECTION_MAP.put(KeyEvent.KEYCODE_DPAD_RIGHT, Direction.EAST);
-        DIRECTION_MAP.put(KeyEvent.KEYCODE_DPAD_LEFT, Direction.WEST);
+        EVENT_MAP.put(KeyEvent.KEYCODE_DPAD_UP, GameEvent.KEY_UP);
+        EVENT_MAP.put(KeyEvent.KEYCODE_DPAD_DOWN, GameEvent.KEY_DOWN);
+        EVENT_MAP.put(KeyEvent.KEYCODE_DPAD_RIGHT, GameEvent.KEY_RIGHT);
+        EVENT_MAP.put(KeyEvent.KEYCODE_DPAD_LEFT, GameEvent.KEY_LEFT);
     }
 
-    private Game game;
+    private GameEngine game;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,15 +31,16 @@ public class MainActivity extends Activity {
         Screen screen = new Screen(this);
         setContentView(screen);
 
-        game = new Game(screen);
+        game = new GameEngine(screen);
+        game.setState(new PlayState());
         game.start();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Direction dir = DIRECTION_MAP.get(keyCode);
-        if (dir != null) {
-            game.setPlayerDirection(dir);
+        GameEvent gameEvent = EVENT_MAP.get(keyCode);
+        if (gameEvent != null) {
+            game.setEvent(gameEvent);
             return true;
         }
 

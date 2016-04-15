@@ -1,5 +1,10 @@
 package pl.czak.retronix;
 
+import pl.czak.retronix.models.Board;
+import pl.czak.retronix.models.Enemy;
+import pl.czak.retronix.models.Player;
+import pl.czak.retronix.models.Position;
+
 import java.util.List;
 
 /**

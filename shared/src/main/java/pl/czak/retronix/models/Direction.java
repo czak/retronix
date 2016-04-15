@@ -1,4 +1,4 @@
-package pl.czak.retronix;
+package pl.czak.retronix.models;
 
 import java.util.Random;
 

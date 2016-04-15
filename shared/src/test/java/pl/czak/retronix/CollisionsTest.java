@@ -1,6 +1,7 @@
 package pl.czak.retronix;
 
 import org.junit.Test;
+import pl.czak.retronix.models.*;
 
 import java.util.Arrays;
 

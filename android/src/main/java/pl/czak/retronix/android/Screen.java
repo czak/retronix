@@ -1,16 +1,15 @@
 package pl.czak.retronix.android;
 
-import pl.czak.retronix.*;
-
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import pl.czak.retronix.GameRenderer;
+import pl.czak.retronix.engine.Canvas;
+import pl.czak.retronix.engine.GameState;
+
 
 /**
  * Created by czak on 14/04/16.
@@ -28,60 +27,44 @@ public class Screen extends SurfaceView implements GameRenderer, SurfaceHolder.C
     }
 
     @Override
-    public void render(Board board) {
+    public void render(GameState state) {
         if (!ready) return;
 
-        // Single field size
-        final float FIELD_SIZE = (float) Math.min((double) getWidth() / board.getWidth(),
-                (double) getHeight() / board.getHeight());
+        final android.graphics.Canvas canvas = holder.lockCanvas();
 
-        // Offset to center in window
-        final float TX = ((float) getWidth() - FIELD_SIZE * board.getWidth()) / 2;
-        final float TY = ((float) getHeight() - FIELD_SIZE * board.getHeight()) / 2;
-
-        Canvas canvas = holder.lockCanvas();
-
-        Paint paint = new Paint();
+        final Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
 
-        RectF rect = new RectF(TX, TY, TX + FIELD_SIZE, TY + FIELD_SIZE);
-
-        // Draw the board
-        for (Board.Field[] row : board.getFields()) {
-            rect.left = TX;
-            rect.right = TX + FIELD_SIZE;
-
-            for (Board.Field f : row) {
-                paint.setColor(colorForField(f));
+        state.render(new Canvas() {
+            @Override
+            public void fillRect(double x, double y, double width, double height, Color color) {
+                RectF rect = new RectF((float) x, (float) y, (float) (x + width), (float) (y + height));
+                paint.setColor(getSystemColor(color));
                 canvas.drawRect(rect, paint);
-                rect.offset(FIELD_SIZE, 0);
             }
-            rect.offset(0, FIELD_SIZE);
-        }
 
-        // Draw the player
-        Position pos = board.getPlayer().getPosition();
-        rect.offsetTo(TX + pos.x * FIELD_SIZE, TY + pos.y * FIELD_SIZE);
-        paint.setColor(Color.MAGENTA);
-        canvas.drawRect(rect, paint);
+            @Override
+            public int getWidth() {
+                return Screen.this.getWidth();
+            }
 
-        // Draw the enemies
-        for (Enemy enemy : board.getEnemies()) {
-            pos = enemy.getPosition();
-            rect.offsetTo(TX + pos.x * FIELD_SIZE, TY + pos.y * FIELD_SIZE);
-            paint.setColor(Color.RED);
-            canvas.drawRect(rect, paint);
-        }
+            @Override
+            public int getHeight() {
+                return Screen.this.getHeight();
+            }
+        });
 
         holder.unlockCanvasAndPost(canvas);
     }
 
-    private int colorForField(Board.Field f) {
-        switch (f) {
-            case LAND:  return Color.GREEN;
-            case SEA:   return Color.BLUE;
-            case SAND:  return Color.YELLOW;
-            default:    return 0;
+    private int getSystemColor(Canvas.Color color) {
+        switch (color) {
+            case RED:       return Color.RED;
+            case GREEN:     return Color.GREEN;
+            case BLUE:      return Color.BLUE;
+            case YELLOW:    return Color.YELLOW;
+            case MAGENTA:   return Color.MAGENTA;
+            default:        return 0;
         }
     }
 

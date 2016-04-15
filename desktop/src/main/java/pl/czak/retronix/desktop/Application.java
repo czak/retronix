@@ -1,7 +1,9 @@
 package pl.czak.retronix.desktop;
 
-import pl.czak.retronix.Direction;
-import pl.czak.retronix.Game;
+import pl.czak.retronix.engine.GameEvent;
+import pl.czak.retronix.models.Direction;
+import pl.czak.retronix.GameEngine;
+import pl.czak.retronix.states.PlayState;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
@@ -10,29 +12,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Application extends JFrame {
-    private static Map<Integer, Direction> DIRECTION_MAP = new HashMap<>();
+    private static Map<Integer, GameEvent> EVENT_MAP = new HashMap<>();
 
     static {
-        DIRECTION_MAP.put(KeyEvent.VK_UP, Direction.NORTH);
-        DIRECTION_MAP.put(KeyEvent.VK_DOWN, Direction.SOUTH);
-        DIRECTION_MAP.put(KeyEvent.VK_RIGHT, Direction.EAST);
-        DIRECTION_MAP.put(KeyEvent.VK_LEFT, Direction.WEST);
+        EVENT_MAP.put(KeyEvent.VK_UP, GameEvent.KEY_UP);
+        EVENT_MAP.put(KeyEvent.VK_DOWN, GameEvent.KEY_DOWN);
+        EVENT_MAP.put(KeyEvent.VK_RIGHT, GameEvent.KEY_RIGHT);
+        EVENT_MAP.put(KeyEvent.VK_LEFT, GameEvent.KEY_LEFT);
     }
 
     public Application() {
         Screen screen = new Screen();
-        Game game = new Game(screen);
-
         setTitle("Retronix");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(screen);
         pack();
 
+        GameEngine game = new GameEngine(screen);
+        game.setState(new PlayState());
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                Direction dir = DIRECTION_MAP.get(e.getKeyCode());
-                if (dir != null) game.setPlayerDirection(dir);
+                GameEvent event = EVENT_MAP.get(e.getKeyCode());
+                if (event != null) game.setEvent(event);
             }
         });
 
