@@ -25,13 +25,16 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 while (true) {
+                    long start = System.currentTimeMillis();
+
                     game.handleEvents();
                     game.update();
                     screen.draw(game.getCurrentState());
 
-                    // TODO: Improve timeout for consistent FPS/game rate
+                    long duration = System.currentTimeMillis() - start;
+
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(Math.max(0, 50 - duration));
                     } catch (InterruptedException ignored) {}
                 }
             }
