@@ -58,10 +58,7 @@ public class PlayState extends State {
             board.update();
         } catch (Board.Collision e) {
             System.out.println("You're dead");
-
-            board.clean();
-            board.setPlayer(new Player(BOARD_WIDTH / 2, 0));
-            board.resetEnemies();
+            game.popState();
         } catch (Board.LevelComplete e) {
             System.out.println("Level complete");
 

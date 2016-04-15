@@ -18,17 +18,20 @@ public class WelcomeState extends State {
     @Override
     public void handleKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-            game.setCurrentState(new PlayState(game));
+            game.pushState(new PlayState(game));
         }
     }
 
     @Override
     public void render(Canvas canvas) {
         Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
+
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);
         paint.setAntiAlias(true);
-
         canvas.drawText("Welcome to Retronix", 0, 100, paint);
     }
 }
