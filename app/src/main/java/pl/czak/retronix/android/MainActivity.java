@@ -3,11 +3,11 @@ package pl.czak.retronix.android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import pl.czak.retronix.GameEngine;
+import pl.czak.retronix.Game;
 import pl.czak.retronix.states.PlayState;
 
 public class MainActivity extends Activity {
-    private GameEngine game;
+    private Game game;
     private Screen screen;
 
     @Override
@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
         screen = new Screen(this);
         setContentView(screen);
 
-        game = new GameEngine();
+        game = new Game();
         game.setState(new PlayState());
 
         // Main loop in a separate thread

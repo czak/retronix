@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GameEngine {
+public class Game {
     private static Set<Integer> HANDLED_KEYCODES = new HashSet<>(Arrays.asList(
             KeyEvent.KEYCODE_DPAD_UP,
             KeyEvent.KEYCODE_DPAD_DOWN,
