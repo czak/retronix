@@ -1,4 +1,4 @@
-package pl.czak.retronix.engine;
+package pl.czak.retronix;
 
 import android.graphics.Canvas;
 import android.view.KeyEvent;

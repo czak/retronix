@@ -1,7 +1,6 @@
 package pl.czak.retronix;
 
 import android.view.KeyEvent;
-import pl.czak.retronix.engine.State;
 
 import java.util.Arrays;
 import java.util.HashSet;

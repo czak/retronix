@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import pl.czak.retronix.engine.State;
+import pl.czak.retronix.State;
 
 
 /**

@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.KeyEvent;
-import pl.czak.retronix.engine.State;
+import pl.czak.retronix.State;
 import pl.czak.retronix.models.*;
 
 import java.util.Arrays;
