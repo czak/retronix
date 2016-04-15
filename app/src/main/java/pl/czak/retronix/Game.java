@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Game {
-    private static Set<Integer> HANDLED_KEYCODES = new HashSet<>(Arrays.asList(
+    private static final Set<Integer> HANDLED_KEYCODES = new HashSet<>(Arrays.asList(
             KeyEvent.KEYCODE_DPAD_UP,
             KeyEvent.KEYCODE_DPAD_DOWN,
             KeyEvent.KEYCODE_DPAD_LEFT,
