@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import pl.czak.retronix.engine.GameEvent;
+import android.view.KeyEvent;
 import pl.czak.retronix.engine.GameState;
 import pl.czak.retronix.models.*;
 
@@ -30,18 +30,18 @@ public class PlayState extends GameState {
     }
 
     @Override
-    public void handleEvent(GameEvent event) {
-        switch (event) {
-            case KEY_UP:
+    public void handleKeyEvent(KeyEvent event) {
+        switch (event.getKeyCode()) {
+            case KeyEvent.KEYCODE_DPAD_UP:
                 board.getPlayer().setDirection(Direction.NORTH);
                 break;
-            case KEY_DOWN:
+            case KeyEvent.KEYCODE_DPAD_DOWN:
                 board.getPlayer().setDirection(Direction.SOUTH);
                 break;
-            case KEY_LEFT:
+            case KeyEvent.KEYCODE_DPAD_LEFT:
                 board.getPlayer().setDirection(Direction.WEST);
                 break;
-            case KEY_RIGHT:
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
                 board.getPlayer().setDirection(Direction.EAST);
                 break;
             default:

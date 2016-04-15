@@ -1,12 +1,23 @@
 package pl.czak.retronix;
 
-import pl.czak.retronix.engine.GameEvent;
+import android.view.KeyEvent;
 import pl.czak.retronix.engine.GameState;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class GameEngine {
+    private static Set<Integer> HANDLED_KEYCODES = new HashSet<>(Arrays.asList(
+            KeyEvent.KEYCODE_DPAD_UP,
+            KeyEvent.KEYCODE_DPAD_DOWN,
+            KeyEvent.KEYCODE_DPAD_LEFT,
+            KeyEvent.KEYCODE_DPAD_RIGHT
+    ));
+
     private GameRenderer renderer;
     private GameState state;
-    private GameEvent event;
+    private KeyEvent event;
 
     public GameEngine(GameRenderer renderer) {
         this.renderer = renderer;
@@ -16,8 +27,12 @@ public class GameEngine {
         this.state = state;
     }
 
-    public void setEvent(GameEvent event) {
-        this.event = event;
+    public boolean setKeyEvent(KeyEvent event) {
+        if (HANDLED_KEYCODES.contains(event.getKeyCode())) {
+            this.event = event;
+            return true;
+        }
+        return false;
     }
 
     public void start() {
@@ -26,7 +41,7 @@ public class GameEngine {
             public void run() {
                 while (true) {
                     if (event != null) {
-                        state.handleEvent(event);
+                        state.handleKeyEvent(event);
                         event = null;
                     }
 
