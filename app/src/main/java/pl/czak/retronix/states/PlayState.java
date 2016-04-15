@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.KeyEvent;
+import pl.czak.retronix.Game;
 import pl.czak.retronix.State;
 import pl.czak.retronix.models.*;
 
@@ -19,7 +20,9 @@ public class PlayState extends State {
 
     private Board board;
 
-    public PlayState() {
+    public PlayState(Game game) {
+        super(game);
+
         board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         board.setPlayer(new Player(BOARD_WIDTH / 2, 0));
         board.setEnemies(Arrays.<Enemy>asList(

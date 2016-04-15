@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         setContentView(screen);
 
         game = new Game();
-        game.setCurrentState(new WelcomeState());
+        game.setCurrentState(new WelcomeState(game));
 
         // Main loop in a separate thread
         new Thread(new Runnable() {
