@@ -20,7 +20,7 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
         holder.addCallback(this);
     }
 
-    public void render(GameState state) {
+    public void draw(GameState state) {
         if (!ready) return;
 
         Canvas canvas = holder.lockCanvas();

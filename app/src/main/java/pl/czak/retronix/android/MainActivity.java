@@ -8,17 +8,34 @@ import pl.czak.retronix.states.PlayState;
 
 public class MainActivity extends Activity {
     private GameEngine game;
+    private Screen screen;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Screen screen = new Screen(this);
+        screen = new Screen(this);
         setContentView(screen);
 
-        game = new GameEngine(screen);
+        game = new GameEngine();
         game.setState(new PlayState());
-        game.start();
+
+        // Main loop in a separate thread
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    game.handleEvents();
+                    game.update();
+                    screen.draw(game.getState());
+
+                    // TODO: Improve timeout for consistent FPS/game rate
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ignored) {}
+                }
+            }
+        }).start();
     }
 
     @Override
