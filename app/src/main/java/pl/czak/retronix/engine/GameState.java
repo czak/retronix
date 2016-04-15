@@ -1,5 +1,7 @@
 package pl.czak.retronix.engine;
 
+import android.graphics.Canvas;
+
 /**
  * Created by czak on 15/04/16.
  */
