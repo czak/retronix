@@ -1,7 +1,8 @@
 package pl.czak.retronix;
 
-import android.graphics.Canvas;
-import android.view.KeyEvent;
+import pl.czak.retronix.engine.GameEvent;
+
+import java.awt.Graphics2D;
 
 /**
  * Created by czak on 15/04/16.
@@ -13,7 +14,7 @@ public abstract class State {
         this.game = game;
     }
 
-    public void handleKeyEvent(KeyEvent event) { }
+    public void handleGameEvent(GameEvent event) { }
     public void update() { }
-    public abstract void render(Canvas canvas);
+    public abstract void render(Graphics2D g2);
 }

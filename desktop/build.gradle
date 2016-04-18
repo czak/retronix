@@ -1,0 +1,5 @@
+apply plugin: 'application'
+mainClassName = 'pl.czak.retronix.desktop.Application'
+dependencies {
+    compile project(':shared')
+}

@@ -1,0 +1,5 @@
+project(':shared') {
+    apply plugin: 'java'
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    compileJava.options.bootClasspath = "$System.env.JAVA7_HOME/jre/lib/rt.jar"
+}
