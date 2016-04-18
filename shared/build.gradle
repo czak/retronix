@@ -1,5 +1,9 @@
 project(':shared') {
     apply plugin: 'java'
     sourceCompatibility = JavaVersion.VERSION_1_7
-    compileJava.options.bootClasspath = "$System.env.JAVA7_HOME/jre/lib/rt.jar"
+    if (project.hasProperty('java7home')) {
+        compileJava.options.bootClasspath = "${java7home}/jre/lib/rt.jar"
+    } else {
+        println "Please set the java7home Gradle property"
+    }
 }
