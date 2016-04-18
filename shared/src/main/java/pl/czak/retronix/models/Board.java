@@ -238,7 +238,7 @@ public class Board {
     }
 
     public void setEnemies(List<Enemy> enemies) {
-        this.enemies = new ArrayList(enemies);
+        this.enemies = new ArrayList<>(enemies);
     }
 
     /**
