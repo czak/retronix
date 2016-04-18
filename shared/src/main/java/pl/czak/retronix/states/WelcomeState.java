@@ -2,10 +2,8 @@ package pl.czak.retronix.states;
 
 import pl.czak.retronix.Game;
 import pl.czak.retronix.State;
+import pl.czak.retronix.engine.Canvas;
 import pl.czak.retronix.engine.GameEvent;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
 
 /**
  * Created by czak on 15/04/16.
@@ -23,9 +21,8 @@ public class WelcomeState extends State {
     }
 
     @Override
-    public void render(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.drawString("Welcome to Retronix", 0, 100);
+    public void render(Canvas canvas) {
+        canvas.drawString(0, 172, "Welcome to Retronix, mon!");
     }
 
 //    ANDROID VERSION

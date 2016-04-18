@@ -2,11 +2,10 @@ package pl.czak.retronix.states;
 
 import pl.czak.retronix.Game;
 import pl.czak.retronix.State;
+import pl.czak.retronix.engine.Canvas;
 import pl.czak.retronix.engine.GameEvent;
 import pl.czak.retronix.models.*;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.Arrays;
 
 /**
@@ -71,7 +70,7 @@ public class PlayState extends State {
     }
 
     @Override
-    public void render(Graphics2D g2) {
+    public void render(Canvas canvas) {
         // Single field size is 4px
         final int FIELD_SIZE = 4;
 
@@ -81,8 +80,7 @@ public class PlayState extends State {
         for (Board.Field[] row : board.getFields()) {
             x = 0;
             for (Board.Field f : row) {
-                g2.setColor(colorForField(f));
-                g2.fillRect(x, y, FIELD_SIZE, FIELD_SIZE);
+                canvas.fillRect(x, y, FIELD_SIZE, FIELD_SIZE, colorForField(f));
                 x += FIELD_SIZE;
             }
             y += FIELD_SIZE;
@@ -90,14 +88,12 @@ public class PlayState extends State {
 
         // Draw the player
         Position pos = board.getPlayer().getPosition();
-        g2.setColor(Color.MAGENTA);
-        g2.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+        canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.MAGENTA);
 
         // Draw the enemies
         for (Enemy enemy : board.getEnemies()) {
             pos = enemy.getPosition();
-            g2.setColor(Color.RED);
-            g2.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+            canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.RED);
         }
     }
 
@@ -143,12 +139,12 @@ public class PlayState extends State {
 //        }
 //    }
 
-    private Color colorForField(Board.Field f) {
+    private Canvas.Color colorForField(Board.Field f) {
         switch (f) {
-            case LAND:  return Color.GREEN;
-            case SEA:   return Color.BLUE;
-            case SAND:  return Color.YELLOW;
-            default:    return Color.BLACK;
+            case LAND:  return Canvas.Color.GREEN;
+            case SEA:   return Canvas.Color.BLUE;
+            case SAND:  return Canvas.Color.YELLOW;
+            default:    return Canvas.Color.BLACK;
         }
     }
 }
