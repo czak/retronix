@@ -1,6 +1,7 @@
 package pl.czak.retronix.desktop;
 
 import pl.czak.retronix.Game;
+import pl.czak.retronix.State;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.GameEvent;
 import pl.czak.retronix.states.WelcomeState;
@@ -24,12 +25,16 @@ public class Application extends JFrame implements Backend {
         EVENT_MAP.put(KeyEvent.VK_ENTER, GameEvent.KEY_SELECT);
     }
 
+    private Screen screen;
+
     public Application() {
-        Screen screen = new Screen();
+        screen = new Screen();
         setTitle("Retronix");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(screen);
         pack();
+
+        SoundEffect.init();
 
         Game game = new Game(this);
         game.pushState(new WelcomeState(game));
@@ -42,27 +47,7 @@ public class Application extends JFrame implements Backend {
             }
         });
 
-        SoundEffect.init();
-
-        new Thread(() -> {
-            while (true) {
-                long start = System.currentTimeMillis();
-
-                game.handleEvents();
-                game.update();
-                screen.draw(game.getCurrentState());
-
-                long duration = System.currentTimeMillis() - start;
-
-                try {
-                    Thread.sleep(Math.max(0, 50 - duration));
-                } catch (InterruptedException ignored) {}
-            }
-        }).start();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Application().setVisible(true));
+        game.run();
     }
 
     @Override
@@ -78,5 +63,14 @@ public class Application extends JFrame implements Backend {
                 SoundEffect.GAME_OVER.play();
                 break;
         }
+    }
+
+    @Override
+    public void draw(State state) {
+        screen.draw(state);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new Application().setVisible(true));
     }
 }
