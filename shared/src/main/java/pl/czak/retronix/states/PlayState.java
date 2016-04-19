@@ -8,6 +8,8 @@ import pl.czak.retronix.models.*;
 
 import java.util.Arrays;
 
+import static pl.czak.retronix.engine.Canvas.Sprite.*;
+
 /**
  * Created by czak on 15/04/16.
  */
@@ -74,11 +76,10 @@ public class PlayState extends State {
         // Single field size is 4px
         final int FIELD_SIZE = 4;
 
-        int x = 0, y = 0;
-
         // Draw the board
+        int y = 0;
         for (Board.Field[] row : board.getFields()) {
-            x = 0;
+            int x = 0;
             for (Board.Field f : row) {
                 if (f != Board.Field.SEA)
                     canvas.fillRect(x, y, FIELD_SIZE, FIELD_SIZE, colorForField(f));
@@ -89,12 +90,14 @@ public class PlayState extends State {
 
         // Draw the player
         Position pos = board.getPlayer().getPosition();
-        canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.WHITE);
+        Canvas.Sprite sprite = board.getField(pos) == Board.Field.LAND ? PLAYER_LAND : PLAYER_SEA;
+        canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, sprite);
 
         // Draw the enemies
         for (Enemy enemy : board.getEnemies()) {
             pos = enemy.getPosition();
-            canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.WHITE);
+            sprite = enemy instanceof SeaEnemy ? SEA_ENEMY : LAND_ENEMY;
+            canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, sprite);
         }
     }
 

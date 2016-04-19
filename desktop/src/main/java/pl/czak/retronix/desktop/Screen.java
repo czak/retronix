@@ -65,9 +65,10 @@ public class Screen extends JPanel {
     // Graphics2D-based implementation of the Retronix Canvas interface
     class Graphics2DCanvas implements Canvas {
         @Override
-        public void drawSprite(int x, int y, int spriteId) {
-            int sx = (spriteId % 32) * 4;
-            int sy = (spriteId / 32) * 4;
+        public void drawSprite(int x, int y, Sprite sprite) {
+            int index = sprite.getIndex();
+            int sx = (index % 32) * 4;
+            int sy = (index / 32) * 4;
             g2.drawImage(FONT, x, y, x+4, y+4, sx, sy, sx+4, sy+4, null);
         }
 

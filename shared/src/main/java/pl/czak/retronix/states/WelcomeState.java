@@ -5,6 +5,8 @@ import pl.czak.retronix.State;
 import pl.czak.retronix.engine.Canvas;
 import pl.czak.retronix.engine.GameEvent;
 
+import static pl.czak.retronix.engine.Canvas.Sprite.*;
+
 /**
  * Created by czak on 15/04/16.
  */
@@ -36,14 +38,14 @@ public class WelcomeState extends State {
             x = 0;
             for (char ch : line.toCharArray()) {
                 x += 4;
-                int spriteId;
+                Canvas.Sprite sprite;
                 switch (ch) {
-                    case ':': spriteId = 0; break;
-                    case '+': spriteId = 1; break;
-                    case '#': spriteId = 2; break;
+                    case ':': sprite = FILL_1; break;
+                    case '+': sprite = FILL_2; break;
+                    case '#': sprite = FILL_3; break;
                     default: continue;
                 }
-                canvas.drawSprite(x, y, spriteId);
+                canvas.drawSprite(x, y, sprite);
             }
             y += 4;
         }
