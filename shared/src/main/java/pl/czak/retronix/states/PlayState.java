@@ -25,6 +25,7 @@ public class PlayState extends State {
 
     private int score = 0;
     private int level = 1;
+    private int lives = 3;
 
     public PlayState(Game game) {
         super(game);
@@ -79,7 +80,14 @@ public class PlayState extends State {
             }
         } catch (Collision e) {
             System.out.println("You're dead");
-            game.popState();
+
+            if (--lives == 0) {
+                game.popState();
+            } else {
+                board.clean();
+                player = new Player(BOARD_WIDTH / 2, 0);
+                resetEnemies();
+            }
         }
     }
 
@@ -167,6 +175,15 @@ public class PlayState extends State {
         return board.getField(position) == enemy.getNativeField();
     }
 
+    private void resetEnemies() {
+        for (Enemy enemy : enemies) {
+            if (enemy instanceof LandEnemy) {
+                enemy.setPosition(board.randomPosition(Board.Field.LAND));
+                enemy.setDirection(Direction.randomDiagonal());
+            }
+        }
+    }
+
     /**
      * Detect a collision between the given enemy and the player.
      * @param enemy
@@ -194,6 +211,7 @@ public class PlayState extends State {
                 nextPosition.equals(player.getPosition()))
             throw new Collision();
     }
+    
     @Override
     public void render(Canvas canvas) {
         // Single field size is 4px
@@ -225,7 +243,8 @@ public class PlayState extends State {
 
         // Bottom info
         canvas.drawString(0, 172, "Score: " + score);
-        canvas.drawString(120, 172, String.format("Full: %d%%", (int) (board.getFillRatio() * 100)));
+        canvas.drawString(112, 172, "Xn: " + lives);
+        canvas.drawString(170, 172, String.format("Full: %d%%", (int) (board.getFillRatio() * 100)));
     }
 
 //    THIS IS ANDROID SPECIFIC VERSION OF THE ABOVE

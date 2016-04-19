@@ -111,19 +111,6 @@ public class Board {
         return fillRatio;
     }
 
-//    /**
-//     * Reset positions & directions of enemies on the board.
-//     * Note only land enemies are updated.
-//     */
-//    public void resetEnemies() {
-//        for (Enemy enemy : enemies) {
-//            if (enemy instanceof LandEnemy) {
-//                enemy.setPosition(randomPosition(Field.LAND));
-//                enemy.setDirection(Direction.randomDiagonal());
-//            }
-//        }
-//    }
-
     public boolean isWithinBounds(Position pos) {
         return pos.x >= 0 && pos.x < width &&
                 pos.y >= 0 && pos.y < height;
