@@ -3,7 +3,7 @@ package pl.czak.retronix.desktop;
 import pl.czak.retronix.Game;
 import pl.czak.retronix.State;
 import pl.czak.retronix.engine.Backend;
-import pl.czak.retronix.engine.GameEvent;
+import pl.czak.retronix.engine.Event;
 import pl.czak.retronix.states.WelcomeState;
 
 import javax.swing.JFrame;
@@ -15,14 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Application extends JFrame implements Backend {
-    private static Map<Integer, GameEvent> EVENT_MAP = new HashMap<>();
+    private static Map<Integer, Event> EVENT_MAP = new HashMap<>();
 
     static {
-        EVENT_MAP.put(KeyEvent.VK_UP, GameEvent.KEY_UP);
-        EVENT_MAP.put(KeyEvent.VK_DOWN, GameEvent.KEY_DOWN);
-        EVENT_MAP.put(KeyEvent.VK_RIGHT, GameEvent.KEY_RIGHT);
-        EVENT_MAP.put(KeyEvent.VK_LEFT, GameEvent.KEY_LEFT);
-        EVENT_MAP.put(KeyEvent.VK_ENTER, GameEvent.KEY_SELECT);
+        EVENT_MAP.put(KeyEvent.VK_UP, Event.KEY_UP);
+        EVENT_MAP.put(KeyEvent.VK_DOWN, Event.KEY_DOWN);
+        EVENT_MAP.put(KeyEvent.VK_RIGHT, Event.KEY_RIGHT);
+        EVENT_MAP.put(KeyEvent.VK_LEFT, Event.KEY_LEFT);
+        EVENT_MAP.put(KeyEvent.VK_ENTER, Event.KEY_SELECT);
     }
 
     private Screen screen;
@@ -42,8 +42,8 @@ public class Application extends JFrame implements Backend {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                GameEvent event = EVENT_MAP.get(e.getKeyCode());
-                if (event != null) game.setGameEvent(event);
+                Event event = EVENT_MAP.get(e.getKeyCode());
+                if (event != null) game.setEvent(event);
             }
         });
 

@@ -3,7 +3,7 @@ package pl.czak.retronix.states;
 import pl.czak.retronix.Game;
 import pl.czak.retronix.State;
 import pl.czak.retronix.engine.Canvas;
-import pl.czak.retronix.engine.GameEvent;
+import pl.czak.retronix.engine.Event;
 
 import static pl.czak.retronix.engine.Canvas.Sprite.*;
 
@@ -25,8 +25,8 @@ public class WelcomeState extends State {
     }
 
     @Override
-    public void handleGameEvent(GameEvent event) {
-        if (event == GameEvent.KEY_SELECT) {
+    public void handleEvent(Event event) {
+        if (event == Event.KEY_SELECT) {
             game.pushState(new PlayState(game));
         }
     }

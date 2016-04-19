@@ -1,14 +1,14 @@
 package pl.czak.retronix;
 
 import pl.czak.retronix.engine.Backend;
-import pl.czak.retronix.engine.GameEvent;
+import pl.czak.retronix.engine.Event;
 
 import java.util.Stack;
 
 public class Game {
     private Backend backend;
     private Stack<State> states = new Stack<>();
-    private GameEvent lastGameEvent;
+    private Event event;
 
     public enum Sound {
         LEVEL_COMPLETE, DEATH, GAME_OVER
@@ -28,7 +28,7 @@ public class Game {
                 while (true) {
                     long start = System.currentTimeMillis();
 
-                    handleEvents();
+                    handleEvent();
                     update();
                     draw();
 
@@ -42,10 +42,10 @@ public class Game {
         }).start();
     }
 
-    private void handleEvents() {
-        if (lastGameEvent != null) {
-            getCurrentState().handleGameEvent(lastGameEvent);
-            lastGameEvent = null;
+    private void handleEvent() {
+        if (event != null) {
+            getCurrentState().handleEvent(event);
+            event = null;
         }
     }
 
@@ -79,7 +79,7 @@ public class Game {
         backend.playSound(sound);
     }
 
-    public void setGameEvent(GameEvent gameEvent) {
-        this.lastGameEvent = gameEvent;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

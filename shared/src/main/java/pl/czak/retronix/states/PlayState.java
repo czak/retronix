@@ -3,7 +3,7 @@ package pl.czak.retronix.states;
 import pl.czak.retronix.Game;
 import pl.czak.retronix.State;
 import pl.czak.retronix.engine.Canvas;
-import pl.czak.retronix.engine.GameEvent;
+import pl.czak.retronix.engine.Event;
 import pl.czak.retronix.models.*;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class PlayState extends State {
     }
 
     @Override
-    public void handleGameEvent(GameEvent event) {
+    public void handleEvent(Event event) {
         switch (event) {
             case KEY_UP:
                 player.setDirection(Direction.NORTH);
