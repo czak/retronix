@@ -16,10 +16,4 @@ public class SeaEnemy extends Enemy {
     public Board.Field getNativeField() {
         return Board.Field.SEA;
     }
-
-    @Override
-    public void detectCollision(Board.Field field) throws Board.Collision {
-        if (field == Board.Field.SAND)
-            throw new Board.Collision();
-    }
 }

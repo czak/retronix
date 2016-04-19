@@ -13,6 +13,4 @@ public abstract class Enemy extends GameCharacter {
     }
 
     public abstract Board.Field getNativeField();
-
-    public abstract void detectCollision(Board.Field field) throws Board.Collision;
 }

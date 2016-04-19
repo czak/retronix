@@ -16,9 +16,4 @@ public class LandEnemy extends Enemy {
     public Board.Field getNativeField() {
         return Board.Field.LAND;
     }
-
-    @Override
-    public void detectCollision(Board.Field field) throws Board.Collision {
-        // No-op here. LandEnemy does not collide with fields on the board.
-    }
 }
