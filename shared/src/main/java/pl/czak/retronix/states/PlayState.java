@@ -15,7 +15,7 @@ import static pl.czak.retronix.engine.Canvas.Sprite.*;
  */
 public class PlayState extends State {
     private static final int BOARD_WIDTH = 80;
-    private static final int BOARD_HEIGHT = 45;
+    private static final int BOARD_HEIGHT = 43;
 
     private Board board;
 
@@ -99,6 +99,9 @@ public class PlayState extends State {
             sprite = enemy instanceof SeaEnemy ? SEA_ENEMY : LAND_ENEMY;
             canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, sprite);
         }
+
+        // Bottom info
+        canvas.drawString(0, 172, String.format("Full: %d%%", (int) (board.getFillRatio() * 100)));
     }
 
 //    THIS IS ANDROID SPECIFIC VERSION OF THE ABOVE

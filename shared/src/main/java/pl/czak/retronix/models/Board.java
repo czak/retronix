@@ -27,6 +27,8 @@ public class Board {
     private Player player;
     private List<Enemy> enemies = new ArrayList<>();
 
+    private double fillRatio = 0;
+
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
@@ -185,8 +187,8 @@ public class Board {
 
         // Break out if we've passed FILL_THRESHOLD
         int totalSeaFields = (width - 2*LAND_BORDER_WIDTH) * (height - 2*LAND_BORDER_WIDTH);
-        double ratio = 1.0 - ((double) remainingSeaFields / totalSeaFields);
-        if (ratio >= FILL_THRESHOLD)
+        fillRatio = 1.0 - ((double) remainingSeaFields / totalSeaFields);
+        if (fillRatio >= FILL_THRESHOLD)
             throw new LevelComplete();
     }
 
@@ -239,6 +241,10 @@ public class Board {
 
     public void setEnemies(List<Enemy> enemies) {
         this.enemies = new ArrayList<>(enemies);
+    }
+
+    public double getFillRatio() {
+        return fillRatio;
     }
 
     /**
