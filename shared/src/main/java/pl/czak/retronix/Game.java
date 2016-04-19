@@ -3,12 +3,14 @@ package pl.czak.retronix;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Queue;
 
 public class Game {
     private Backend backend;
-    private Stack<State> states = new Stack<>();
-    private Event event;
+    private Deque<State> states = new ArrayDeque<>();
+    private Queue<Event> events = new ArrayDeque<>();
 
     public enum Sound {
         LEVEL_COMPLETE, DEATH, GAME_OVER
@@ -43,9 +45,8 @@ public class Game {
     }
 
     private void handleEvent() {
-        if (event != null) {
-            getCurrentState().handleEvent(event);
-            event = null;
+        if (events.peek() != null) {
+            getCurrentState().handleEvent(events.poll());
         }
     }
 
@@ -79,7 +80,7 @@ public class Game {
         backend.playSound(sound);
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void addEvent(Event event) {
+        events.offer(event);
     }
 }

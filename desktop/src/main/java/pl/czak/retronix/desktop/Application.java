@@ -43,7 +43,7 @@ public class Application extends JFrame implements Backend {
             @Override
             public void keyPressed(KeyEvent e) {
                 Event event = EVENT_MAP.get(e.getKeyCode());
-                if (event != null) game.setEvent(event);
+                if (event != null) game.addEvent(event);
             }
         });
 
