@@ -9,6 +9,7 @@ import pl.czak.retronix.models.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.czak.retronix.Game.Sound.*;
 import static pl.czak.retronix.engine.Canvas.Sprite.*;
 
 /**
@@ -74,6 +75,7 @@ public class PlayState extends State {
             // Have we completed the level?
             if (board.getFillRatio() >= BOARD_FILL_THRESHOLD) {
                 System.out.println("Level complete");
+                game.playSound(LEVEL_COMPLETE);
 
                 level++;
                 initialize();
@@ -82,8 +84,10 @@ public class PlayState extends State {
             System.out.println("You're dead");
 
             if (--lives == 0) {
+                game.playSound(GAME_OVER);
                 game.popState();
             } else {
+                game.playSound(DEATH);
                 board.clean();
                 player = new Player(BOARD_WIDTH / 2, 0);
                 resetEnemies();
@@ -211,7 +215,7 @@ public class PlayState extends State {
                 nextPosition.equals(player.getPosition()))
             throw new Collision();
     }
-    
+
     @Override
     public void render(Canvas canvas) {
         // Single field size is 4px

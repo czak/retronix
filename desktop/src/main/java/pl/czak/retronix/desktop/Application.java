@@ -1,8 +1,8 @@
 package pl.czak.retronix.desktop;
 
 import pl.czak.retronix.Game;
+import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.GameEvent;
-import pl.czak.retronix.states.PlayState;
 import pl.czak.retronix.states.WelcomeState;
 
 import javax.swing.JFrame;
@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Application extends JFrame {
+public class Application extends JFrame implements Backend {
     private static Map<Integer, GameEvent> EVENT_MAP = new HashMap<>();
 
     static {
@@ -31,7 +31,7 @@ public class Application extends JFrame {
         setContentPane(screen);
         pack();
 
-        Game game = new Game();
+        Game game = new Game(this);
         game.pushState(new WelcomeState(game));
 
         addKeyListener(new KeyAdapter() {
@@ -41,6 +41,8 @@ public class Application extends JFrame {
                 if (event != null) game.setGameEvent(event);
             }
         });
+
+        SoundEffect.init();
 
         new Thread(() -> {
             while (true) {
@@ -61,5 +63,20 @@ public class Application extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Application().setVisible(true));
+    }
+
+    @Override
+    public void playSound(Game.Sound sound) {
+        switch (sound) {
+            case LEVEL_COMPLETE:
+                SoundEffect.LEVEL_COMPLETE.play();
+                break;
+            case DEATH:
+                SoundEffect.DEATH.play();
+                break;
+            case GAME_OVER:
+                SoundEffect.GAME_OVER.play();
+                break;
+        }
     }
 }
