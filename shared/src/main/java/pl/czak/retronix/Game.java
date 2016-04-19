@@ -46,16 +46,16 @@ public class Game {
 
     private void handleEvent() {
         if (events.peek() != null) {
-            getCurrentState().handleEvent(events.poll());
+            states.peek().handleEvent(events.poll());
         }
     }
 
     private void update() {
-        getCurrentState().update();
+        states.peek().update();
     }
 
     private void draw() {
-        backend.draw(getCurrentState());
+        backend.draw(states.peek());
     }
 
     // region State management
@@ -67,10 +67,6 @@ public class Game {
 
     public State popState() {
         return states.pop();
-    }
-
-    public State getCurrentState() {
-        return states.peek();
     }
 
     // ---------
