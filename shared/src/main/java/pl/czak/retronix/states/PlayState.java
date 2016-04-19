@@ -6,7 +6,7 @@ import pl.czak.retronix.engine.Canvas;
 import pl.czak.retronix.engine.GameEvent;
 import pl.czak.retronix.models.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import static pl.czak.retronix.engine.Canvas.Sprite.*;
@@ -23,18 +23,25 @@ public class PlayState extends State {
     private Player player;
     private List<Enemy> enemies;
 
-    private int score;
+    private int score = 0;
+    private int level = 1;
 
     public PlayState(Game game) {
         super(game);
+        initialize();
+    }
 
+    private void initialize() {
         board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         player = new Player(BOARD_WIDTH / 2, 0);
-        enemies = Arrays.asList(
-                new LandEnemy(board.randomPosition(Board.Field.LAND), Direction.randomDiagonal()),
-                new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()),
-                new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal())
-        );
+
+        // 1 land enemy on nth level
+        // n+2 sea enemies on nth level
+        enemies = new ArrayList<>();
+        enemies.add(new LandEnemy(board.randomPosition(Board.Field.LAND), Direction.randomDiagonal()));
+        for (int i = 0; i < level + 2; i++) {
+            enemies.add(new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()));
+        }
     }
 
     @Override
@@ -67,13 +74,8 @@ public class PlayState extends State {
             if (board.getFillRatio() >= BOARD_FILL_THRESHOLD) {
                 System.out.println("Level complete");
 
-                board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
-                player = new Player(BOARD_WIDTH / 2, 0);
-                enemies = Arrays.asList(
-                        new LandEnemy(board.randomPosition(Board.Field.LAND), Direction.randomDiagonal()),
-                        new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()),
-                        new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal())
-                );
+                level++;
+                initialize();
             }
         } catch (Collision e) {
             System.out.println("You're dead");
