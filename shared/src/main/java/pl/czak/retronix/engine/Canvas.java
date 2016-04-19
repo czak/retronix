@@ -5,9 +5,7 @@ package pl.czak.retronix.engine;
  */
 public interface Canvas {
     enum Color {
-        WHITE, BLACK,
-        RED, GREEN, BLUE,
-        YELLOW, MAGENTA, CYAN
+        WHITE, MAGENTA, CYAN
     }
 
     void drawSprite(int x, int y, int spriteId);

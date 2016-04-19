@@ -80,7 +80,8 @@ public class PlayState extends State {
         for (Board.Field[] row : board.getFields()) {
             x = 0;
             for (Board.Field f : row) {
-                canvas.fillRect(x, y, FIELD_SIZE, FIELD_SIZE, colorForField(f));
+                if (f != Board.Field.SEA)
+                    canvas.fillRect(x, y, FIELD_SIZE, FIELD_SIZE, colorForField(f));
                 x += FIELD_SIZE;
             }
             y += FIELD_SIZE;
@@ -88,12 +89,12 @@ public class PlayState extends State {
 
         // Draw the player
         Position pos = board.getPlayer().getPosition();
-        canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.MAGENTA);
+        canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.WHITE);
 
         // Draw the enemies
         for (Enemy enemy : board.getEnemies()) {
             pos = enemy.getPosition();
-            canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.RED);
+            canvas.fillRect(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, Canvas.Color.WHITE);
         }
     }
 
@@ -141,10 +142,9 @@ public class PlayState extends State {
 
     private Canvas.Color colorForField(Board.Field f) {
         switch (f) {
-            case LAND:  return Canvas.Color.GREEN;
-            case SEA:   return Canvas.Color.BLUE;
-            case SAND:  return Canvas.Color.YELLOW;
-            default:    return Canvas.Color.BLACK;
+            case LAND:  return Canvas.Color.CYAN;
+            case SAND:  return Canvas.Color.MAGENTA;
+            default:    return null;
         }
     }
 }

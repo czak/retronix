@@ -12,19 +12,28 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by czak on 24/02/16.
  */
 public class Screen extends JPanel {
-    private static BufferedImage font;
+    private static final BufferedImage FONT;
+    private static final Map<Canvas.Color, Color> COLOR_MAP = new HashMap<>();
 
     static {
+        BufferedImage img = null;
         try {
-            font = ImageIO.read(ClassLoader.getSystemResource("font.png"));
+            img = ImageIO.read(ClassLoader.getSystemResource("font.png"));
         } catch (IOException ex) {
             System.out.println("Font not loaded");
         }
+        FONT = img;
+
+        COLOR_MAP.put(Canvas.Color.WHITE, Color.WHITE);
+        COLOR_MAP.put(Canvas.Color.CYAN, new Color(0, 168, 168));
+        COLOR_MAP.put(Canvas.Color.MAGENTA, new Color(168, 0, 168));
     }
 
     private State state;
@@ -59,7 +68,7 @@ public class Screen extends JPanel {
         public void drawSprite(int x, int y, int spriteId) {
             int sx = (spriteId % 32) * 4;
             int sy = (spriteId / 32) * 4;
-            g2.drawImage(font, x, y, x+4, y+4, sx, sy, sx+4, sy+4, null);
+            g2.drawImage(FONT, x, y, x+4, y+4, sx, sy, sx+4, sy+4, null);
         }
 
         @Override
@@ -68,29 +77,15 @@ public class Screen extends JPanel {
                 int index = b & 0xff;
                 int sx = (index % 16) * 8;
                 int sy = (index / 16) * 8;
-                g2.drawImage(font, x, y, x+8, y+8, sx, sy, sx+8, sy+8, null);
+                g2.drawImage(FONT, x, y, x+8, y+8, sx, sy, sx+8, sy+8, null);
                 x+=8;
             }
         }
 
         @Override
         public void fillRect(int x, int y, int width, int height, Color color) {
-            g2.setColor(systemColor(color));
+            g2.setColor(COLOR_MAP.get(color));
             g2.fillRect(x, y, width, height);
-        }
-
-        private java.awt.Color systemColor(Color color) {
-            switch (color) {
-                case WHITE:     return java.awt.Color.WHITE;
-                case BLACK:     return java.awt.Color.BLACK;
-                case RED:       return java.awt.Color.RED;
-                case GREEN:     return java.awt.Color.GREEN;
-                case BLUE:      return java.awt.Color.BLUE;
-                case YELLOW:    return java.awt.Color.YELLOW;
-                case MAGENTA:   return java.awt.Color.MAGENTA;
-                case CYAN:      return java.awt.Color.CYAN;
-                default:        return null;
-            }
         }
     }
 }
