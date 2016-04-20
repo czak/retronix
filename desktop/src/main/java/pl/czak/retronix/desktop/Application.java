@@ -62,6 +62,9 @@ public class Application extends JFrame implements Backend {
             case GAME_OVER:
                 SoundEffect.GAME_OVER.play();
                 break;
+            case DANGER:
+                SoundEffect.DANGER.play();
+                break;
         }
     }
 

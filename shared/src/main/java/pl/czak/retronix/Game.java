@@ -13,7 +13,7 @@ public class Game {
     private Queue<Event> events = new ArrayDeque<>();
 
     public enum Sound {
-        LEVEL_COMPLETE, DEATH, GAME_OVER
+        LEVEL_COMPLETE, DEATH, GAME_OVER, DANGER
     }
 
     public Game(Backend backend) {

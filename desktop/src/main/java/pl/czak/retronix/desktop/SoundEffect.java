@@ -18,7 +18,8 @@ import javax.sound.sampled.*;
 public enum SoundEffect {
     LEVEL_COMPLETE("hurra.wav"),
     DEATH("death.wav"),
-    GAME_OVER("gameover.wav");
+    GAME_OVER("gameover.wav"),
+    DANGER("danger.wav");
 
     // Each sound effect has its own clip, loaded with its own sound file.
     private Clip clip;

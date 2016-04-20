@@ -34,6 +34,9 @@ public class PlayState extends State {
 
     private int pause = 0;
 
+    private long timeEnd;
+    private long timeRemaining;
+
     public PlayState(Game game) {
         super(game);
         initialize();
@@ -43,15 +46,23 @@ public class PlayState extends State {
         board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         player = new Player(BOARD_WIDTH / 2, 0);
 
-        // 1 land enemy on every level
-        landEnemies = new ArrayList<>();
-        landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
-
         // n+2 sea enemies on nth level
         seaEnemies = new ArrayList<>();
         for (int i = 0; i < level + 2; i++) {
             seaEnemies.add(new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()));
         }
+
+        resetLandEnemies();
+    }
+
+    private void resetLandEnemies() {
+        // Start with 1 land enemy on every level
+        landEnemies = new ArrayList<>();
+        landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
+
+        // When a new LandEnemy will be spawned
+        timeEnd = System.currentTimeMillis() + 91000;
+        timeRemaining = 90;
     }
 
     @Override
@@ -115,6 +126,15 @@ public class PlayState extends State {
 
             died = true;
             pause = 50;
+        }
+
+        // Update time counter
+        timeRemaining = (timeEnd - System.currentTimeMillis()) / 1000;
+        if (timeRemaining <= 0) {
+            game.playSound(DANGER);
+            landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
+            timeEnd = System.currentTimeMillis() + 91000;
+            timeRemaining = 90;
         }
     }
 
@@ -221,11 +241,6 @@ public class PlayState extends State {
         return board.getField(position) == enemy.getNativeField();
     }
 
-    private void resetLandEnemies() {
-        landEnemies = new ArrayList<>();
-        landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
-    }
-
     /**
      * Detect a collision between the given enemy and the player.
      * @param enemy
@@ -291,7 +306,7 @@ public class PlayState extends State {
         canvas.drawString(0, 172, "Score: " + score);
         canvas.drawString(112, 172, "Xn: " + lives);
         canvas.drawString(170, 172, String.format("Full: %d%%", (int) (board.getFillRatio() * 100)));
-        canvas.drawString(250, 172, "Time: 90");
+        canvas.drawString(250, 172, "Time: " + Math.max(0, timeRemaining));
     }
 
 //    THIS IS ANDROID SPECIFIC VERSION OF THE ABOVE
