@@ -28,6 +28,11 @@ public class PlayState extends State {
     private int level = 1;
     private int lives = 3;
 
+    private boolean died;
+    private boolean levelCompleted;
+
+    private int pause = 0;
+
     public PlayState(Game game) {
         super(game);
         initialize();
@@ -68,30 +73,45 @@ public class PlayState extends State {
 
     @Override
     public void update() {
+        if (--pause > 0)
+            return;
+
+        // Cleanup after dying or completing a level
+        if (died) {
+            if (lives == 0) {
+                game.popState();
+                return;
+            } else {
+                board.clean();
+                player = new Player(BOARD_WIDTH / 2, 0);
+                resetEnemies();
+            }
+            died = false;
+        } else if (levelCompleted) {
+            initialize();
+            levelCompleted = false;
+        }
+
         try {
             movePlayer();
             moveEnemies();
 
             // Have we completed the level?
             if (board.getFillRatio() >= BOARD_FILL_THRESHOLD) {
-                System.out.println("Level complete");
                 game.playSound(LEVEL_COMPLETE);
-
                 level++;
-                initialize();
+
+                levelCompleted = true;
+                pause = 50;
             }
         } catch (Collision e) {
-            System.out.println("You're dead");
-
-            if (--lives == 0) {
+            if (--lives == 0)
                 game.playSound(GAME_OVER);
-                game.popState();
-            } else {
+            else
                 game.playSound(DEATH);
-                board.clean();
-                player = new Player(BOARD_WIDTH / 2, 0);
-                resetEnemies();
-            }
+
+            died = true;
+            pause = 50;
         }
     }
 
