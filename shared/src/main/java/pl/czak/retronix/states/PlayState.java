@@ -269,6 +269,7 @@ public class PlayState extends State {
         canvas.drawString(0, 172, "Score: " + score);
         canvas.drawString(112, 172, "Xn: " + lives);
         canvas.drawString(170, 172, String.format("Full: %d%%", (int) (board.getFillRatio() * 100)));
+        canvas.drawString(250, 172, "Time: 90");
     }
 
 //    THIS IS ANDROID SPECIFIC VERSION OF THE ABOVE
