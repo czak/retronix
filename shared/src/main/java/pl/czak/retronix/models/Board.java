@@ -42,7 +42,7 @@ public class Board {
      * Fill walled areas with land
      * @param enemies
      */
-    public int fill(List<Enemy> enemies) {
+    public int fill(List<SeaEnemy> enemies) {
         // Mark all enemy-occupied areas as DEEP_SEA
         for (Enemy enemy : enemies) {
             Position pos = enemy.getPosition();

@@ -22,7 +22,8 @@ public class PlayState extends State {
 
     private Board board;
     private Player player;
-    private List<Enemy> enemies;
+    private List<LandEnemy> landEnemies;
+    private List<SeaEnemy> seaEnemies;
 
     private int score = 0;
     private int level = 1;
@@ -42,12 +43,14 @@ public class PlayState extends State {
         board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
         player = new Player(BOARD_WIDTH / 2, 0);
 
-        // 1 land enemy on nth level
+        // 1 land enemy on every level
+        landEnemies = new ArrayList<>();
+        landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
+
         // n+2 sea enemies on nth level
-        enemies = new ArrayList<>();
-        enemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
+        seaEnemies = new ArrayList<>();
         for (int i = 0; i < level + 2; i++) {
-            enemies.add(new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()));
+            seaEnemies.add(new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()));
         }
     }
 
@@ -84,7 +87,7 @@ public class PlayState extends State {
             } else {
                 board.clean();
                 player = new Player(BOARD_WIDTH / 2, 0);
-                resetEnemies();
+                resetLandEnemies();
             }
             died = false;
         } else if (levelCompleted) {
@@ -140,7 +143,7 @@ public class PlayState extends State {
                 player.stop();
 
                 // And fill the board
-                score += board.fill(enemies);
+                score += board.fill(seaEnemies);
             }
         }
 
@@ -148,9 +151,28 @@ public class PlayState extends State {
     }
 
     private void moveEnemies() throws Collision {
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : landEnemies) {
+            bounceEnemy(enemy);
+
+            // Detect collision with player
+            collideEnemyWithPlayer(enemy);
+
+            // There's still a possibility the enemy can't move (i.e. gets stuck)
+            // so we check one more time before actually moving.
+            Position nextPosition = enemy.getNextPosition();
+            if (canMoveEnemy(enemy, nextPosition)) {
+                enemy.setPosition(nextPosition);
+            }
+
+            // Need to recheck collisions, otherwise player might
+            // pass an enemy untouched.
+            // TODO: Clean this up. Should be doable in a single pass.
+            collideEnemyWithPlayer(enemy);
+        }
+
+        for (Enemy enemy : seaEnemies) {
             // Sea enemies collide with in-progress SAND walls
-            if (enemy instanceof SeaEnemy && board.getField(enemy.getNextPosition()) == Board.Field.SAND)
+            if (board.getField(enemy.getNextPosition()) == Board.Field.SAND)
                 throw new Collision();
 
             bounceEnemy(enemy);
@@ -199,13 +221,9 @@ public class PlayState extends State {
         return board.getField(position) == enemy.getNativeField();
     }
 
-    private void resetEnemies() {
-        for (Enemy enemy : enemies) {
-            if (enemy instanceof LandEnemy) {
-                enemy.setPosition(new Position(BOARD_WIDTH / 2, BOARD_HEIGHT - 2));
-                enemy.setDirection(Direction.randomDiagonal());
-            }
-        }
+    private void resetLandEnemies() {
+        landEnemies = new ArrayList<>();
+        landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
     }
 
     /**
@@ -259,10 +277,14 @@ public class PlayState extends State {
         canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, sprite);
 
         // Draw the enemies
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : landEnemies) {
             pos = enemy.getPosition();
-            sprite = enemy instanceof SeaEnemy ? SEA_ENEMY : LAND_ENEMY;
-            canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, sprite);
+            canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, LAND_ENEMY);
+        }
+
+        for (Enemy enemy : seaEnemies) {
+            pos = enemy.getPosition();
+            canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, SEA_ENEMY);
         }
 
         // Bottom info
