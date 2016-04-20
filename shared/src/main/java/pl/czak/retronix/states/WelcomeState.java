@@ -50,6 +50,8 @@ public class WelcomeState extends State {
             y += 4;
         }
 
+        canvas.drawString(104, 100, "> START GAME <");
+
         canvas.drawString(68, 154, "Made by £ukasz Adamczak");
         canvas.drawString(8, 168, "Based on Xonix by Ilan Rav & Dani Katz");
     }
