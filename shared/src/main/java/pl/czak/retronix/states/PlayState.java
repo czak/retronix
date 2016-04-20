@@ -92,14 +92,9 @@ public class PlayState extends State {
 
         // Cleanup after dying or completing a level
         if (died) {
-            if (lives == 0) {
-                game.popState();
-                return;
-            } else {
-                board.clean();
-                player = new Player(BOARD_WIDTH / 2, 0);
-                resetLandEnemies();
-            }
+            board.clean();
+            player = new Player(BOARD_WIDTH / 2, 0);
+            resetLandEnemies();
             died = false;
         } else if (levelCompleted) {
             initialize();
@@ -119,10 +114,13 @@ public class PlayState extends State {
                 pause = 50;
             }
         } catch (Collision e) {
-            if (--lives == 0)
+            if (--lives == 0) {
                 game.playSound(GAME_OVER);
-            else
+                game.pushState(new GameOverState(game, this));
+            }
+            else {
                 game.playSound(DEATH);
+            }
 
             died = true;
             pause = 50;
