@@ -45,7 +45,7 @@ public class PlayState extends State {
         // 1 land enemy on nth level
         // n+2 sea enemies on nth level
         enemies = new ArrayList<>();
-        enemies.add(new LandEnemy(board.randomPosition(Board.Field.LAND), Direction.randomDiagonal()));
+        enemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
         for (int i = 0; i < level + 2; i++) {
             enemies.add(new SeaEnemy(board.randomPosition(Board.Field.SEA), Direction.randomDiagonal()));
         }
@@ -202,7 +202,7 @@ public class PlayState extends State {
     private void resetEnemies() {
         for (Enemy enemy : enemies) {
             if (enemy instanceof LandEnemy) {
-                enemy.setPosition(board.randomPosition(Board.Field.LAND));
+                enemy.setPosition(new Position(BOARD_WIDTH / 2, BOARD_HEIGHT - 2));
                 enemy.setDirection(Direction.randomDiagonal());
             }
         }
