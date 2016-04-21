@@ -303,7 +303,7 @@ public class PlayState extends State {
         // Bottom info
         canvas.drawString(0, 172, "Score: " + score);
         canvas.drawString(112, 172, "Xn: " + lives);
-        canvas.drawString(170, 172, String.format("Full: %d%%", (int) (board.getFillRatio() * 100)));
+        canvas.drawString(170, 172, "Full: " + ((int) (board.getFillRatio() * 100)) + "%%");
         canvas.drawString(250, 172, "Time: " + Math.max(0, timeRemaining));
     }
 
