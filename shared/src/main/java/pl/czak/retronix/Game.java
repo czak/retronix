@@ -3,14 +3,14 @@ package pl.czak.retronix;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Game {
     private Backend backend;
-    private Deque<State> states = new ArrayDeque<>();
-    private Queue<Event> events = new ArrayDeque<>();
+    private Deque<State> states = new LinkedList<>();
+    private Queue<Event> events = new LinkedList<>();
 
     public enum Sound {
         LEVEL_COMPLETE, DEATH, GAME_OVER, DANGER
@@ -20,41 +20,17 @@ public class Game {
         this.backend = backend;
     }
 
-    /**
-     * Enter the game's main loop
-     */
-    public void run() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    long start = System.currentTimeMillis();
-
-                    handleEvent();
-                    update();
-                    draw();
-
-                    long duration = System.currentTimeMillis() - start;
-
-                    try {
-                        Thread.sleep(Math.max(0, 50 - duration));
-                    } catch (InterruptedException ignored) { }
-                }
-            }
-        }).start();
-    }
-
-    private void handleEvent() {
+    public void handleEvent() {
         if (events.peek() != null) {
             states.peek().handleEvent(events.poll());
         }
     }
 
-    private void update() {
+    public void update() {
         states.peek().update();
     }
 
-    private void draw() {
+    public void draw() {
         backend.draw(states.peek());
     }
 

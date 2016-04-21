@@ -47,7 +47,21 @@ public class Application extends JFrame implements Backend {
             }
         });
 
-        game.run();
+        new Thread(() -> {
+            while (true) {
+                long start = System.currentTimeMillis();
+
+                game.handleEvent();
+                game.update();
+                game.draw();
+
+                long duration = System.currentTimeMillis() - start;
+
+                try {
+                    Thread.sleep(Math.max(0, 50 - duration));
+                } catch (InterruptedException ignored) { }
+            }
+        }).start();
     }
 
     @Override
