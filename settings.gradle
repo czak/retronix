@@ -1,1 +1,1 @@
-include ':android', ':desktop', ':shared'
+include ':android', ':desktop', ':shared', ':web'
