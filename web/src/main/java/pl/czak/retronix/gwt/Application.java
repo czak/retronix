@@ -3,32 +3,31 @@ package pl.czak.retronix.gwt;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.media.client.Audio;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-
 import pl.czak.retronix.Game;
 import pl.czak.retronix.State;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
 import pl.czak.retronix.states.WelcomeState;
 
+import java.io.UnsupportedEncodingException;
+
 public class Application implements EntryPoint, Backend, KeyDownHandler {
     private Canvas canvas;
     private Game game;
     private Image font;
     private ImageElement fontElement;
+
+    private Audio audio;
 
     @SuppressWarnings("JniMissingFunction")
     public static native void setupContext(Context2d ctx) /*-{
@@ -59,6 +58,8 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
 
         font = new Image("images/font.png");
         fontElement = ImageElement.as(font.getElement());
+
+        audio = Audio.createIfSupported();
 
         game = new Game(this);
         game.pushState(new WelcomeState(game));
@@ -122,7 +123,13 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
 
     @Override
     public void playSound(Game.Sound sound) {
-        GWT.log("Playing sound: " + sound.toString());
+        switch (sound) {
+            case LEVEL_COMPLETE: audio.setSrc("sounds/hurra.wav"); break;
+            case DEATH: audio.setSrc("sounds/death.wav"); break;
+            case GAME_OVER: audio.setSrc("sounds/gameover.wav"); break;
+            case DANGER: audio.setSrc("sounds/danger.wav"); break;
+        }
+        audio.play();
     }
 
     @Override
