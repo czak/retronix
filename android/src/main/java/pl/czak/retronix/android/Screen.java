@@ -1,14 +1,14 @@
 package pl.czak.retronix.android;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import pl.czak.retronix.engine.Renderer;
 import pl.czak.retronix.engine.State;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +42,8 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
     private Canvas canvas;
     private CanvasRenderer renderer;
 
+    private Bitmap font;
+
     public Screen(Context context) {
         super(context);
         holder = getHolder();
@@ -49,6 +51,13 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
         holder.setFixedSize(1280, 720);
 
         this.renderer = new CanvasRenderer();
+
+        try {
+            InputStream in = getContext().getAssets().open("font.png");
+            font = BitmapFactory.decodeStream(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void draw(State state) {
@@ -81,7 +90,9 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
     class CanvasRenderer implements Renderer {
         @Override
         public void drawSprite(int x, int y, int spriteId) {
-            canvas.drawRect(x, y, x+4, y+4, PAINT_MAP.get(Color.WHITE));
+            int sx = (spriteId % 32) * 4;
+            int sy = (spriteId / 32) * 4;
+            canvas.drawBitmap(font, new Rect(sx, sy, sx+4, sy+4), new Rect(x, y, x+4, y+4), null);
         }
 
         @Override
@@ -90,7 +101,7 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
                 int index = b & 0xff;
                 int sx = (index % 16) * 8;
                 int sy = (index / 16) * 8;
-                canvas.drawRect(x, y, x+8, y+8, PAINT_MAP.get(Color.WHITE));
+                canvas.drawBitmap(font, new Rect(sx, sy, sx+8, sy+8), new Rect(x, y, x+8, y+8), null);
                 x+=8;
             }
         }
