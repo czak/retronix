@@ -32,6 +32,9 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
 
     @SuppressWarnings("JniMissingFunction")
     public static native void setupContext(Context2d ctx) /*-{
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
     }-*/;
 
