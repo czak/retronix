@@ -1,16 +1,15 @@
 package pl.czak.retronix.states;
 
 import pl.czak.retronix.Game;
-import pl.czak.retronix.State;
-import pl.czak.retronix.engine.Canvas;
 import pl.czak.retronix.engine.Event;
+import pl.czak.retronix.engine.Renderer;
+import pl.czak.retronix.engine.State;
 import pl.czak.retronix.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static pl.czak.retronix.Game.Sound.*;
-import static pl.czak.retronix.engine.Canvas.Sprite.*;
 
 /**
  * Created by czak on 15/04/16.
@@ -19,6 +18,12 @@ public class PlayState extends State {
     private static final int BOARD_WIDTH = 80;
     private static final int BOARD_HEIGHT = 43;
     private static final double BOARD_FILL_THRESHOLD = 0.8;
+
+    // Sprites used for this state
+    private static final int SPRITE_PLAYER_LAND = 4;
+    private static final int SPRITE_PLAYER_SEA = 5;
+    private static final int SPRITE_SEA_ENEMY = 6;
+    private static final int SPRITE_LAND_ENEMY = 7;
 
     private Board board;
     private Player player;
@@ -268,7 +273,7 @@ public class PlayState extends State {
     }
 
     @Override
-    public void render(Canvas canvas) {
+    public void render(Renderer renderer) {
         // Single field size is 4px
         final int FIELD_SIZE = 4;
 
@@ -278,7 +283,7 @@ public class PlayState extends State {
             int x = 0;
             for (Board.Field f : row) {
                 if (f != Board.Field.SEA)
-                    canvas.fillRect(x, y, FIELD_SIZE, FIELD_SIZE, colorForField(f));
+                    renderer.fillRect(x, y, FIELD_SIZE, FIELD_SIZE, colorForField(f));
                 x += FIELD_SIZE;
             }
             y += FIELD_SIZE;
@@ -286,30 +291,30 @@ public class PlayState extends State {
 
         // Draw the player
         Position pos = player.getPosition();
-        Canvas.Sprite sprite = board.getField(pos) == Board.Field.LAND ? PLAYER_LAND : PLAYER_SEA;
-        canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, sprite);
+        int spriteId = board.getField(pos) == Board.Field.LAND ? SPRITE_PLAYER_LAND : SPRITE_PLAYER_SEA;
+        renderer.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, spriteId);
 
         // Draw the enemies
         for (Enemy enemy : landEnemies) {
             pos = enemy.getPosition();
-            canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, LAND_ENEMY);
+            renderer.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, SPRITE_LAND_ENEMY);
         }
 
         for (Enemy enemy : seaEnemies) {
             pos = enemy.getPosition();
-            canvas.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, SEA_ENEMY);
+            renderer.drawSprite(pos.x * FIELD_SIZE, pos.y * FIELD_SIZE, SPRITE_SEA_ENEMY);
         }
 
         // Bottom info
-        canvas.drawString(0, 172, "Score: " + score);
-        canvas.drawString(112, 172, "Xn: " + lives);
-        canvas.drawString(170, 172, "Full: " + ((int) (board.getFillRatio() * 100)) + "%");
-        canvas.drawString(250, 172, "Time: " + Math.max(0, timeRemaining));
+        renderer.drawString(0, 172, "Score: " + score);
+        renderer.drawString(112, 172, "Xn: " + lives);
+        renderer.drawString(170, 172, "Full: " + ((int) (board.getFillRatio() * 100)) + "%");
+        renderer.drawString(250, 172, "Time: " + Math.max(0, timeRemaining));
     }
 
 //    THIS IS ANDROID SPECIFIC VERSION OF THE ABOVE
 //    @Override
-//    public void render(Canvas canvas) {
+//    public void render(Renderer canvas) {
 //        // Single field size
 //        final float FIELD_SIZE = Math.min((float) canvas.getWidth() / board.getWidth(),
 //                (float) canvas.getHeight() / board.getHeight());
@@ -349,10 +354,10 @@ public class PlayState extends State {
 //        }
 //    }
 
-    private Canvas.Color colorForField(Board.Field f) {
+    private Renderer.Color colorForField(Board.Field f) {
         switch (f) {
-            case LAND:  return Canvas.Color.CYAN;
-            case SAND:  return Canvas.Color.MAGENTA;
+            case LAND:  return Renderer.Color.CYAN;
+            case SAND:  return Renderer.Color.MAGENTA;
             default:    return null;
         }
     }

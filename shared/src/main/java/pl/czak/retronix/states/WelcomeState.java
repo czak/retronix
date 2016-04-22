@@ -1,11 +1,9 @@
 package pl.czak.retronix.states;
 
 import pl.czak.retronix.Game;
-import pl.czak.retronix.State;
-import pl.czak.retronix.engine.Canvas;
 import pl.czak.retronix.engine.Event;
-
-import static pl.czak.retronix.engine.Canvas.Sprite.*;
+import pl.czak.retronix.engine.Renderer;
+import pl.czak.retronix.engine.State;
 
 /**
  * Created by czak on 15/04/16.
@@ -20,6 +18,11 @@ public class WelcomeState extends State {
             "#+#   #+# #+#          ##    #+#   #+# #+#   #+# #+#   ##+#    ##    #+#   #+#\n" +
             "###   ### #########    ##    ###   ###  #######  ###    ### ######## ###   ###";
 
+    // Sprites used for the logo
+    private static final int SPRITE_FILL_1 = 0;
+    private static final int SPRITE_FILL_2 = 1;
+    private static final int SPRITE_FILL_3 = 2;
+
     public WelcomeState(Game game) {
         super(game);
     }
@@ -32,33 +35,33 @@ public class WelcomeState extends State {
     }
 
     @Override
-    public void render(Canvas canvas) {
+    public void render(Renderer renderer) {
         int x, y = 4;
         for (String line : LOGO.split("\\n")) {
             x = 0;
             for (char ch : line.toCharArray()) {
                 x += 4;
-                Canvas.Sprite sprite;
+                int spriteId;
                 switch (ch) {
-                    case ':': sprite = FILL_1; break;
-                    case '+': sprite = FILL_2; break;
-                    case '#': sprite = FILL_3; break;
+                    case ':': spriteId = SPRITE_FILL_1; break;
+                    case '+': spriteId = SPRITE_FILL_2; break;
+                    case '#': spriteId = SPRITE_FILL_3; break;
                     default: continue;
                 }
-                canvas.drawSprite(x, y, sprite);
+                renderer.drawSprite(x, y, spriteId);
             }
             y += 4;
         }
 
-        canvas.drawString(104, 100, "> START GAME <");
+        renderer.drawString(104, 100, "> START GAME <");
 
-        canvas.drawString(68, 154, "Made by £ukasz Adamczak");
-        canvas.drawString(8, 168, "Based on Xonix by Ilan Rav & Dani Katz");
+        renderer.drawString(68, 154, "Made by £ukasz Adamczak");
+        renderer.drawString(8, 168, "Based on Xonix by Ilan Rav & Dani Katz");
     }
 
 //    ANDROID VERSION
 //    @Override
-//    public void render(Canvas canvas) {
+//    public void render(Renderer canvas) {
 //        Paint paint = new Paint();
 //        paint.setColor(Color.BLACK);
 //        paint.setStyle(Paint.Style.FILL);

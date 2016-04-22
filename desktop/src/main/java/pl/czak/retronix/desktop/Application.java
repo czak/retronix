@@ -1,7 +1,7 @@
 package pl.czak.retronix.desktop;
 
 import pl.czak.retronix.Game;
-import pl.czak.retronix.State;
+import pl.czak.retronix.engine.State;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
 import pl.czak.retronix.states.WelcomeState;

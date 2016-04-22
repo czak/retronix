@@ -1,8 +1,8 @@
 package pl.czak.retronix.states;
 
 import pl.czak.retronix.Game;
-import pl.czak.retronix.State;
-import pl.czak.retronix.engine.Canvas;
+import pl.czak.retronix.engine.State;
+import pl.czak.retronix.engine.Renderer;
 import pl.czak.retronix.engine.Event;
 
 /**
@@ -32,10 +32,10 @@ public class GameOverState extends State {
     }
 
     @Override
-    public void render(Canvas canvas) {
-        previousState.render(canvas);
-        canvas.drawString(88, 78, "[================]");
-        canvas.drawString(88, 86, "|G A M E  O V E R|");
-        canvas.drawString(88, 94, "{================}");
+    public void render(Renderer renderer) {
+        previousState.render(renderer);
+        renderer.drawString(88, 78, "[================]");
+        renderer.drawString(88, 86, "|G A M E  O V E R|");
+        renderer.drawString(88, 94, "{================}");
     }
 }

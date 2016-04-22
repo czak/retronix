@@ -1,7 +1,6 @@
-package pl.czak.retronix;
+package pl.czak.retronix.engine;
 
-import pl.czak.retronix.engine.Canvas;
-import pl.czak.retronix.engine.Event;
+import pl.czak.retronix.Game;
 
 /**
  * Created by czak on 15/04/16.
@@ -15,5 +14,5 @@ public abstract class State {
 
     public void handleEvent(Event event) { }
     public void update() { }
-    public abstract void render(Canvas canvas);
+    public abstract void render(Renderer renderer);
 }

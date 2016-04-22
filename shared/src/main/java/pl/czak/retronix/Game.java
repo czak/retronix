@@ -2,6 +2,7 @@ package pl.czak.retronix;
 
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
+import pl.czak.retronix.engine.State;
 
 import java.util.Deque;
 import java.util.LinkedList;

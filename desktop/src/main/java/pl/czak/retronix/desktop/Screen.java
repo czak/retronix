@@ -1,7 +1,7 @@
 package pl.czak.retronix.desktop;
 
-import pl.czak.retronix.State;
-import pl.czak.retronix.engine.Canvas;
+import pl.czak.retronix.engine.State;
+import pl.czak.retronix.engine.Renderer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class Screen extends JPanel {
     private static final BufferedImage FONT;
-    private static final Map<Canvas.Color, Color> COLOR_MAP = new HashMap<>();
+    private static final Map<Renderer.Color, Color> COLOR_MAP = new HashMap<>();
 
     static {
         BufferedImage img = null;
@@ -31,14 +31,14 @@ public class Screen extends JPanel {
         }
         FONT = img;
 
-        COLOR_MAP.put(Canvas.Color.WHITE, Color.WHITE);
-        COLOR_MAP.put(Canvas.Color.CYAN, new Color(0, 168, 168));
-        COLOR_MAP.put(Canvas.Color.MAGENTA, new Color(168, 0, 168));
+        COLOR_MAP.put(Renderer.Color.WHITE, Color.WHITE);
+        COLOR_MAP.put(Renderer.Color.CYAN, new Color(0, 168, 168));
+        COLOR_MAP.put(Renderer.Color.MAGENTA, new Color(168, 0, 168));
     }
 
     private State state;
     private Graphics2D g2;
-    private Graphics2DCanvas canvas;
+    private Graphics2DRenderer renderer;
 
     public Screen() {
         setPreferredSize(new Dimension(1280, 720));
@@ -46,7 +46,7 @@ public class Screen extends JPanel {
 
         // No state is preserved but I'm storing it anyway
         // to prevent instantiating for every frame.
-        this.canvas = new Graphics2DCanvas();
+        this.renderer = new Graphics2DRenderer();
     }
 
     public void draw(State state) {
@@ -59,16 +59,15 @@ public class Screen extends JPanel {
         super.paintComponent(g);
         g2 = (Graphics2D) g;
         g2.scale(4, 4);
-        state.render(canvas);
+        state.render(renderer);
     }
 
-    // Graphics2D-based implementation of the Retronix Canvas interface
-    class Graphics2DCanvas implements Canvas {
+    // Graphics2D-based implementation of the Retronix Renderer interface
+    class Graphics2DRenderer implements Renderer {
         @Override
-        public void drawSprite(int x, int y, Sprite sprite) {
-            int index = sprite.getIndex();
-            int sx = (index % 32) * 4;
-            int sy = (index / 32) * 4;
+        public void drawSprite(int x, int y, int spriteId) {
+            int sx = (spriteId % 32) * 4;
+            int sy = (spriteId / 32) * 4;
             g2.drawImage(FONT, x, y, x+4, y+4, sx, sy, sx+4, sy+4, null);
         }
 
