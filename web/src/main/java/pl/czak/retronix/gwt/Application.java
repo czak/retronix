@@ -13,13 +13,16 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import pl.czak.retronix.Game;
-import pl.czak.retronix.State;
-import pl.czak.retronix.engine.Backend;
-import pl.czak.retronix.engine.Event;
-import pl.czak.retronix.states.WelcomeState;
 
 import java.io.UnsupportedEncodingException;
+
+import pl.czak.retronix.Game;
+import pl.czak.retronix.engine.Backend;
+import pl.czak.retronix.engine.Event;
+import pl.czak.retronix.engine.Renderer;
+import pl.czak.retronix.engine.Sound;
+import pl.czak.retronix.engine.State;
+import pl.czak.retronix.states.WelcomeState;
 
 public class Application implements EntryPoint, Backend, KeyDownHandler {
     private Canvas canvas;
@@ -79,12 +82,11 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
         final Context2d ctx = canvas.getContext2d();
         ctx.setFillStyle("#000");
         ctx.fillRect(0, 0, 320, 180);
-        state.render(new pl.czak.retronix.engine.Canvas() {
+        state.render(new Renderer() {
             @Override
-            public void drawSprite(int x, int y, Sprite sprite) {
-                int index = sprite.getIndex();
-                int sx = (index % 32) * 4;
-                int sy = (index / 32) * 4;
+            public void drawSprite(int x, int y, int spriteId) {
+                int sx = (spriteId % 32) * 4;
+                int sy = (spriteId  / 32) * 4;
                 ctx.drawImage(fontElement, sx, sy, 4, 4, x, y, 4, 4);
             }
 
@@ -122,7 +124,7 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
     }
 
     @Override
-    public void playSound(Game.Sound sound) {
+    public void playSound(Sound sound) {
         switch (sound) {
             case LEVEL_COMPLETE: audio.setSrc("sounds/hurra.wav"); break;
             case DEATH: audio.setSrc("sounds/death.wav"); break;
