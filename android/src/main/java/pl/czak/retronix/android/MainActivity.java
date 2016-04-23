@@ -3,15 +3,18 @@ package pl.czak.retronix.android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+
 import pl.czak.retronix.Game;
-import pl.czak.retronix.engine.State;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
+import pl.czak.retronix.engine.Sound;
+import pl.czak.retronix.engine.State;
 import pl.czak.retronix.states.WelcomeState;
 
 public class MainActivity extends Activity implements Backend {
     private Game game;
     private Screen screen;
+    private SoundBank soundBank;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,8 @@ public class MainActivity extends Activity implements Backend {
 
         screen = new Screen(this);
         setContentView(screen);
+
+        soundBank = new SoundBank(this);
 
         game = new Game(this);
         game.pushState(new WelcomeState(game));
@@ -42,6 +47,12 @@ public class MainActivity extends Activity implements Backend {
                 }
             }
         }).start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundBank.release();
     }
 
     @Override
@@ -69,8 +80,8 @@ public class MainActivity extends Activity implements Backend {
     }
 
     @Override
-    public void playSound(Game.Sound sound) {
-        System.out.println("Playing sound: " + sound.toString());
+    public void playSound(Sound sound) {
+        soundBank.play(sound);
     }
 
     @Override

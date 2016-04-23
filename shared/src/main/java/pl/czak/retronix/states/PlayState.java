@@ -9,7 +9,7 @@ import pl.czak.retronix.models.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.czak.retronix.Game.Sound.*;
+import static pl.czak.retronix.engine.Sound.*;
 
 /**
  * Created by czak on 15/04/16.

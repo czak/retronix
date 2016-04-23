@@ -1,6 +1,7 @@
 package pl.czak.retronix.desktop;
 
 import pl.czak.retronix.Game;
+import pl.czak.retronix.engine.Sound;
 import pl.czak.retronix.engine.State;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
@@ -65,7 +66,7 @@ public class Application extends JFrame implements Backend {
     }
 
     @Override
-    public void playSound(Game.Sound sound) {
+    public void playSound(Sound sound) {
         switch (sound) {
             case LEVEL_COMPLETE:
                 SoundEffect.LEVEL_COMPLETE.play();

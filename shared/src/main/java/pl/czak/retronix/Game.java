@@ -2,6 +2,7 @@ package pl.czak.retronix;
 
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
+import pl.czak.retronix.engine.Sound;
 import pl.czak.retronix.engine.State;
 
 import java.util.Deque;
@@ -12,10 +13,6 @@ public class Game {
     private Backend backend;
     private Deque<State> states = new LinkedList<>();
     private Queue<Event> events = new LinkedList<>();
-
-    public enum Sound {
-        LEVEL_COMPLETE, DEATH, GAME_OVER, DANGER
-    }
 
     public Game(Backend backend) {
         this.backend = backend;
