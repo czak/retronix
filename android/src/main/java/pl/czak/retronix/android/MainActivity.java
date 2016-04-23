@@ -2,7 +2,10 @@ package pl.czak.retronix.android;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 import pl.czak.retronix.Game;
 import pl.czak.retronix.engine.Backend;
@@ -16,12 +19,15 @@ public class MainActivity extends Activity implements Backend {
     private Screen screen;
     private SoundBank soundBank;
 
+    private GestureDetectorCompat detector;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         screen = new Screen(this);
         setContentView(screen);
+
+        detector = new GestureDetectorCompat(this, new GestureListener());
 
         soundBank = new SoundBank(this);
 
@@ -56,6 +62,16 @@ public class MainActivity extends Activity implements Backend {
     }
 
     @Override
+    public void playSound(Sound sound) {
+        soundBank.play(sound);
+    }
+
+    @Override
+    public void draw(State state) {
+        screen.draw(state);
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
@@ -80,12 +96,45 @@ public class MainActivity extends Activity implements Backend {
     }
 
     @Override
-    public void playSound(Sound sound) {
-        soundBank.play(sound);
+    public boolean onTouchEvent(MotionEvent event) {
+        detector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
-    @Override
-    public void draw(State state) {
-        screen.draw(state);
+    class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            game.addEvent(Event.KEY_SELECT);
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            // Stolen from http://stackoverflow.com/a/26387629/379822
+            float x1 = e1.getX();
+            float y1 = e1.getY();
+
+            float x2 = e2.getX();
+            float y2 = e2.getY();
+
+            double angle = getAngle(x1, y1, x2, y2);
+
+            if (angle >= 45 && angle < 135) {
+                game.addEvent(Event.KEY_UP);
+            } else if (angle >= 0 && angle < 45 || angle >= 315 && angle < 360) {
+                game.addEvent(Event.KEY_RIGHT);
+            } else if (angle >= 225 && angle < 315) {
+                game.addEvent(Event.KEY_DOWN);
+            } else {
+                game.addEvent(Event.KEY_LEFT);
+            }
+
+            return true;
+        }
+
+        private double getAngle(float x1, float y1, float x2, float y2) {
+            double rad = Math.atan2(y1-y2, x2-x1) + Math.PI;
+            return (rad * 180/Math.PI + 180) % 360;
+        }
     }
 }
