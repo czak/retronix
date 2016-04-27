@@ -15,4 +15,5 @@ public abstract class State {
     public void handleEvent(Event event) { }
     public void update() { }
     public abstract void render(Renderer renderer);
+    public void pause() { }
 }

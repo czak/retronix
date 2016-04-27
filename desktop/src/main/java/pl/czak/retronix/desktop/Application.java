@@ -12,6 +12,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,8 @@ public class Application extends JFrame implements Backend {
     }
 
     private Screen screen;
+    private Game game;
+    private Thread gameThread;
 
     public Application() {
         screen = new Screen();
@@ -38,7 +42,7 @@ public class Application extends JFrame implements Backend {
 
         SoundEffect.init();
 
-        Game game = new Game(this);
+        game = new Game(this);
         game.pushState(new WelcomeState(game));
 
         addKeyListener(new KeyAdapter() {
@@ -49,23 +53,22 @@ public class Application extends JFrame implements Backend {
             }
         });
 
-        new Thread(() -> {
-            while (game.isRunning()) {
-                long start = System.currentTimeMillis();
-
-                game.handleEvent();
-                game.update();
-                game.draw();
-
-                long duration = System.currentTimeMillis() - start;
-
-                try {
-                    Thread.sleep(Math.max(0, 50 - duration));
-                } catch (InterruptedException ignored) { }
+        addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                game.resume();
+                gameThread = new Thread(new MainLoop());
+                gameThread.start();
             }
 
-            System.exit(0);
-        }).start();
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                game.pause();
+                try {
+                    gameThread.join();
+                } catch (InterruptedException ignored) { }
+            }
+        });
     }
 
     @Override
@@ -93,5 +96,26 @@ public class Application extends JFrame implements Backend {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Application().setVisible(true));
+    }
+
+    private class MainLoop implements Runnable {
+        @Override
+        public void run() {
+            while (game.isRunning()) {
+                long start = System.currentTimeMillis();
+
+                game.handleEvent();
+                game.update();
+                game.draw();
+
+                long duration = System.currentTimeMillis() - start;
+
+                try {
+                    Thread.sleep(Math.max(0, 50 - duration));
+                } catch (InterruptedException ignored) { }
+            }
+
+            if (game.isDone()) System.exit(0);
+        }
     }
 }

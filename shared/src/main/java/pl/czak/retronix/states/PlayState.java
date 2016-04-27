@@ -38,7 +38,7 @@ public class PlayState extends State {
     private boolean died;
     private boolean levelCompleted;
 
-    private int pause;
+    private int delay;
     private int timeout;
 
     public PlayState(Game game) {
@@ -84,7 +84,7 @@ public class PlayState extends State {
                 player.setDirection(Direction.EAST);
                 break;
             case KEY_BACK:
-                game.pushState(new PauseState(game, this));
+                pause();
             default:
                 break;
         }
@@ -92,7 +92,7 @@ public class PlayState extends State {
 
     @Override
     public void update() {
-        if (--pause > 0)
+        if (--delay > 0)
             return;
 
         // Cleanup after dying or completing a level
@@ -116,7 +116,7 @@ public class PlayState extends State {
                 level++;
 
                 levelCompleted = true;
-                pause = 50;
+                delay = 50;
             }
         } catch (Collision e) {
             if (--lives == 0) {
@@ -128,7 +128,7 @@ public class PlayState extends State {
             }
 
             died = true;
-            pause = 50;
+            delay = 50;
         }
 
         // Update time counter
@@ -316,6 +316,11 @@ public class PlayState extends State {
             case SAND:  return Renderer.Color.MAGENTA;
             default:    return null;
         }
+    }
+
+    @Override
+    public void pause() {
+        game.pushState(new PauseState(game, this));
     }
 
     private class Collision extends Exception {}

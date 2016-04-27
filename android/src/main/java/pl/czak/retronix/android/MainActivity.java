@@ -6,7 +6,6 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-
 import pl.czak.retronix.Game;
 import pl.czak.retronix.engine.Backend;
 import pl.czak.retronix.engine.Event;
@@ -16,6 +15,7 @@ import pl.czak.retronix.states.WelcomeState;
 
 public class MainActivity extends Activity implements Backend {
     private Game game;
+    private Thread gameThread;
     private Screen screen;
     private SoundBank soundBank;
 
@@ -33,39 +33,29 @@ public class MainActivity extends Activity implements Backend {
 
         game = new Game(this);
         game.pushState(new WelcomeState(game));
-
-        // Main loop in a separate thread
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (game.isRunning()) {
-                    long start = System.currentTimeMillis();
-
-                    game.handleEvent();
-                    game.update();
-                    game.draw();
-
-                    long duration = System.currentTimeMillis() - start;
-
-                    try {
-                        Thread.sleep(Math.max(0, 50 - duration));
-                    } catch (InterruptedException ignored) {}
-                }
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                });
-            }
-        }).start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         soundBank.release();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        game.resume();
+        gameThread = new Thread(new MainLoop());
+        gameThread.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        game.pause();
+        try {
+            gameThread.join();
+        } catch (InterruptedException ignored) { }
     }
 
     @Override
@@ -145,6 +135,34 @@ public class MainActivity extends Activity implements Backend {
         private double getAngle(float x1, float y1, float x2, float y2) {
             double rad = Math.atan2(y1-y2, x2-x1) + Math.PI;
             return (rad * 180/Math.PI + 180) % 360;
+        }
+    }
+
+    private class MainLoop implements Runnable {
+        @Override
+        public void run() {
+            while (game.isRunning()) {
+                long start = System.currentTimeMillis();
+
+                game.handleEvent();
+                game.update();
+                game.draw();
+
+                long duration = System.currentTimeMillis() - start;
+
+                try {
+                    Thread.sleep(Math.max(0, 50 - duration));
+                } catch (InterruptedException ignored) {}
+            }
+
+            if (game.isDone()) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
+            }
         }
     }
 }

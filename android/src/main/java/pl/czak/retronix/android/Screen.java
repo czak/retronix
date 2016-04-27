@@ -61,13 +61,12 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void draw(State state) {
-        if (!ready) return;
-
-        canvas = holder.lockCanvas();
-        canvas.scale(4, 4);
-        canvas.drawColor(Color.BLACK);
-        state.render(renderer);
-        holder.unlockCanvasAndPost(canvas);
+        if (ready && (canvas = holder.lockCanvas()) != null) {
+            canvas.scale(4, 4);
+            canvas.drawColor(Color.BLACK);
+            state.render(renderer);
+            holder.unlockCanvasAndPost(canvas);
+        }
     }
 
     // region ----- SurfaceHolder.Callback methods -----
@@ -78,7 +77,6 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
     }
 
     @Override

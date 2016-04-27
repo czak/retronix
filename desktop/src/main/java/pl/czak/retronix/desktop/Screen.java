@@ -59,7 +59,7 @@ public class Screen extends JPanel {
         super.paintComponent(g);
         g2 = (Graphics2D) g;
         g2.scale(4, 4);
-        state.render(renderer);
+        if (state != null) state.render(renderer);
     }
 
     // Graphics2D-based implementation of the Retronix Renderer interface
