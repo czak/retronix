@@ -50,7 +50,7 @@ public class Application extends JFrame implements Backend {
         });
 
         new Thread(() -> {
-            while (true) {
+            while (game.isRunning()) {
                 long start = System.currentTimeMillis();
 
                 game.handleEvent();
@@ -63,6 +63,8 @@ public class Application extends JFrame implements Backend {
                     Thread.sleep(Math.max(0, 50 - duration));
                 } catch (InterruptedException ignored) { }
             }
+
+            System.exit(0);
         }).start();
     }
 

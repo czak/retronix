@@ -31,6 +31,8 @@ public class WelcomeState extends State {
     public void handleEvent(Event event) {
         if (event == Event.KEY_SELECT) {
             game.pushState(new PlayState(game));
+        } else if (event == Event.KEY_BACK) {
+            game.stop();
         }
     }
 

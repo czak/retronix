@@ -142,6 +142,7 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
             case KeyCodes.KEY_UP: game.addEvent(Event.KEY_UP); break;
             case KeyCodes.KEY_DOWN: game.addEvent(Event.KEY_DOWN); break;
             case KeyCodes.KEY_ENTER: game.addEvent(Event.KEY_SELECT); break;
+            case KeyCodes.KEY_ESCAPE: game.addEvent(Event.KEY_BACK); break;
             default: return;
         }
     }

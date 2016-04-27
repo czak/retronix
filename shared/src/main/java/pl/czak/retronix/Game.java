@@ -14,6 +14,8 @@ public class Game {
     private Deque<State> states = new LinkedList<>();
     private Queue<Event> events = new LinkedList<>();
 
+    private boolean running = true;
+
     public Game(Backend backend) {
         this.backend = backend;
     }
@@ -52,5 +54,13 @@ public class Game {
 
     public void addEvent(Event event) {
         events.offer(event);
+    }
+
+    public void stop() {
+        running = false;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 }

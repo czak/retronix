@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements Backend {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (game.isRunning()) {
                     long start = System.currentTimeMillis();
 
                     game.handleEvent();
@@ -51,6 +51,13 @@ public class MainActivity extends Activity implements Backend {
                         Thread.sleep(Math.max(0, 50 - duration));
                     } catch (InterruptedException ignored) {}
                 }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
             }
         }).start();
     }
@@ -89,6 +96,9 @@ public class MainActivity extends Activity implements Backend {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
                 game.addEvent(Event.KEY_SELECT);
+                return true;
+            case KeyEvent.KEYCODE_BACK:
+                game.addEvent(Event.KEY_BACK);
                 return true;
             default:
                 return false;
