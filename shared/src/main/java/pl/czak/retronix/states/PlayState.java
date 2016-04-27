@@ -310,48 +310,6 @@ public class PlayState extends State {
         renderer.drawString(250, 172, "Time: " + Math.max(0, timeout / 20));
     }
 
-//    THIS IS ANDROID SPECIFIC VERSION OF THE ABOVE
-//    @Override
-//    public void render(Renderer canvas) {
-//        // Single field size
-//        final float FIELD_SIZE = Math.min((float) canvas.getWidth() / board.getWidth(),
-//                (float) canvas.getHeight() / board.getHeight());
-//
-//        // Offset to center in window
-//        final float TX = ((float) canvas.getWidth() - FIELD_SIZE * board.getWidth()) / 2;
-//        final float TY = ((float) canvas.getHeight() - FIELD_SIZE * board.getHeight()) / 2;
-//
-//        RectF rect = new RectF(TX, TY, TX + FIELD_SIZE, TY + FIELD_SIZE);
-//        Paint paint = new Paint();
-//        paint.setStyle(Paint.Style.FILL);
-//
-//        // Draw the board
-//        for (Board.Field[] row : board.getFields()) {
-//            rect.left = TX;
-//            rect.right = TX + FIELD_SIZE;
-//            for (Board.Field f : row) {
-//                paint.setColor(colorForField(f));
-//                canvas.drawRect(rect, paint);
-//                rect.offset(FIELD_SIZE, 0);
-//            }
-//            rect.offset(0, FIELD_SIZE);
-//        }
-//
-//        // Draw the player
-//        Position pos = board.getPlayer().getPosition();
-//        rect.offsetTo(TX + pos.x * FIELD_SIZE, TY + pos.y * FIELD_SIZE);
-//        paint.setColor(Color.MAGENTA);
-//        canvas.drawRect(rect, paint);
-//
-//        // Draw the enemies
-//        for (Enemy enemy : board.getEnemies()) {
-//            pos = enemy.getPosition();
-//            rect.offsetTo(TX + pos.x * FIELD_SIZE, TY + pos.y * FIELD_SIZE);
-//            paint.setColor(Color.RED);
-//            canvas.drawRect(rect, paint);
-//        }
-//    }
-
     private Renderer.Color colorForField(Board.Field f) {
         switch (f) {
             case LAND:  return Renderer.Color.CYAN;

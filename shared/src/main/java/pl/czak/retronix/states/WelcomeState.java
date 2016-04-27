@@ -60,18 +60,4 @@ public class WelcomeState extends State {
         renderer.drawString(68, 154, "Made by £ukasz Adamczak");
         renderer.drawString(8, 168, "Based on Xonix by Ilan Rav & Dani Katz");
     }
-
-//    ANDROID VERSION
-//    @Override
-//    public void render(Renderer canvas) {
-//        Paint paint = new Paint();
-//        paint.setColor(Color.BLACK);
-//        paint.setStyle(Paint.Style.FILL);
-//        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
-//
-//        paint.setColor(Color.WHITE);
-//        paint.setTextSize(60);
-//        paint.setAntiAlias(true);
-//        canvas.drawText("Welcome to Retronix", 0, 100, paint);
-//    }
 }
