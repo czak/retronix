@@ -18,6 +18,7 @@ public class PlayState extends State {
     private static final int BOARD_WIDTH = 80;
     private static final int BOARD_HEIGHT = 43;
     private static final double BOARD_FILL_THRESHOLD = 0.8;
+    private static final int LAND_ENEMY_TIMEOUT = 1820;
 
     // Sprites used for this state
     private static final int SPRITE_PLAYER_LAND = 4;
@@ -37,10 +38,8 @@ public class PlayState extends State {
     private boolean died;
     private boolean levelCompleted;
 
-    private int pause = 0;
-
-    private long timeEnd;
-    private long timeRemaining;
+    private int pause;
+    private int timeout;
 
     public PlayState(Game game) {
         super(game);
@@ -66,8 +65,7 @@ public class PlayState extends State {
         landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
 
         // When a new LandEnemy will be spawned
-        timeEnd = System.currentTimeMillis() + 91000;
-        timeRemaining = 90;
+        timeout = LAND_ENEMY_TIMEOUT;
     }
 
     @Override
@@ -134,12 +132,10 @@ public class PlayState extends State {
         }
 
         // Update time counter
-        timeRemaining = (timeEnd - System.currentTimeMillis()) / 1000;
-        if (timeRemaining <= 0) {
+        if (--timeout <= 0) {
             game.playSound(DANGER);
             landEnemies.add(new LandEnemy(BOARD_WIDTH / 2, BOARD_HEIGHT - 2, Direction.randomDiagonal()));
-            timeEnd = System.currentTimeMillis() + 91000;
-            timeRemaining = 90;
+            timeout = LAND_ENEMY_TIMEOUT;
         }
     }
 
@@ -311,7 +307,7 @@ public class PlayState extends State {
         renderer.drawString(0, 172, "Score: " + score);
         renderer.drawString(112, 172, "Xn: " + lives);
         renderer.drawString(170, 172, "Full: " + ((int) (board.getFillRatio() * 100)) + "%");
-        renderer.drawString(250, 172, "Time: " + Math.max(0, timeRemaining));
+        renderer.drawString(250, 172, "Time: " + Math.max(0, timeout / 20));
     }
 
 //    THIS IS ANDROID SPECIFIC VERSION OF THE ABOVE
