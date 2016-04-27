@@ -24,6 +24,7 @@ public class Application extends JFrame implements Backend {
         EVENT_MAP.put(KeyEvent.VK_RIGHT, Event.KEY_RIGHT);
         EVENT_MAP.put(KeyEvent.VK_LEFT, Event.KEY_LEFT);
         EVENT_MAP.put(KeyEvent.VK_ENTER, Event.KEY_SELECT);
+        EVENT_MAP.put(KeyEvent.VK_ESCAPE, Event.KEY_BACK);
     }
 
     private Screen screen;

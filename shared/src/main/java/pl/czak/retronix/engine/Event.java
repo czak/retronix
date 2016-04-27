@@ -5,5 +5,6 @@ package pl.czak.retronix.engine;
  */
 public enum Event {
     KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT,
-    KEY_SELECT
+    KEY_SELECT,
+    KEY_BACK
 }

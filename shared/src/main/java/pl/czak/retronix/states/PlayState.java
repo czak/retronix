@@ -85,6 +85,8 @@ public class PlayState extends State {
             case KEY_RIGHT:
                 player.setDirection(Direction.EAST);
                 break;
+            case KEY_BACK:
+                game.pushState(new PauseState(game, this));
             default:
                 break;
         }
