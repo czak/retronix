@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.czak.retronix.android">
+
+    <uses-feature android:name="android.software.leanback"
+                  android:required="true" />
+
+    <uses-feature android:name="android.hardware.touchscreen"
+                  android:required="false" />
+
     <application android:label="Retronix"
+                 android:banner="@drawable/banner"
+                 android:icon="@drawable/icon"
                  android:isGame="true">
         <activity android:name="MainActivity"
                   android:screenOrientation="landscape"
