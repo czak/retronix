@@ -16,9 +16,13 @@ public class Game {
 
     private boolean running;
     private boolean done;
+    private final boolean touchEnabled;
 
     public Game(Backend backend) {
         this.backend = backend;
+
+        // Storing this so backend is not queried on every frame
+        touchEnabled = backend.isTouchEnabled();
     }
 
     public void handleEvent() {
@@ -77,5 +81,9 @@ public class Game {
 
     public boolean isDone() {
         return done;
+    }
+
+    public boolean isTouchEnabled() {
+        return touchEnabled;
     }
 }

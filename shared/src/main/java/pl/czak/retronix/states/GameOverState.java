@@ -19,8 +19,12 @@ public class GameOverState extends State {
 
     @Override
     public void handleEvent(Event event) {
-        if (event == Event.SELECT || event == Event.BACK) {
-            isDone = true;
+        switch (event.getType()) {
+            case SELECT:
+            case BACK:
+            case CLICK:
+                isDone = true;
+                break;
         }
     }
 

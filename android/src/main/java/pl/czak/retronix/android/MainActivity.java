@@ -1,6 +1,7 @@
 package pl.czak.retronix.android;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.GestureDetector;
@@ -69,6 +70,12 @@ public class MainActivity extends Activity implements Backend {
     }
 
     @Override
+    public boolean isTouchEnabled() {
+        Configuration config = getResources().getConfiguration();
+        return config.touchscreen == Configuration.TOUCHSCREEN_FINGER;
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
@@ -104,7 +111,10 @@ public class MainActivity extends Activity implements Backend {
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            game.addEvent(Event.SELECT);
+            // Calculate tap location in game pixels
+            int x = (int) (e.getX() / screen.getWidth() * 320);
+            int y = (int) (e.getY() / screen.getHeight() * 180);
+            game.addEvent(new Event(Event.Type.CLICK, x, y));
             return true;
         }
 

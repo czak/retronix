@@ -6,4 +6,5 @@ package pl.czak.retronix.engine;
 public interface Backend {
     void playSound(Sound sound);
     void draw(State state);
+    boolean isTouchEnabled();
 }

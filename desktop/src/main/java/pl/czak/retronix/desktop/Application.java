@@ -98,6 +98,11 @@ public class Application extends JFrame implements Backend {
         screen.draw(state);
     }
 
+    @Override
+    public boolean isTouchEnabled() {
+        return false;
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Application().setVisible(true));
     }
