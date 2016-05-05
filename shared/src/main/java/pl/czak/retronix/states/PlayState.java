@@ -70,7 +70,7 @@ public class PlayState extends State {
 
     @Override
     public void handleEvent(Event event) {
-        switch (event) {
+        switch (event.type) {
             case KEY_UP:
                 player.setDirection(Direction.NORTH);
                 break;
