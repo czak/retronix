@@ -46,15 +46,25 @@ public class PauseState extends State {
     @Override
     public void render(Renderer renderer) {
         previousState.render(renderer);
-        renderer.drawString(88, 78,  "[==============]");
-        renderer.drawString(88, 86,  "|   CONTINUE   |");
-        renderer.drawString(88, 94,  "|     EXIT     |");
-        renderer.drawString(88, 102, "{==============}");
+
+        renderer.drawString(112,  54, "   PAUSED   ");
+
+        renderer.drawString(112,  70, "(----------)");
+        renderer.drawString(112,  78, "; CONTINUE ;");
+        renderer.drawString(112,  86, ",----------.");
+
+        renderer.drawString(112,  94, "(----------)");
+        renderer.drawString(112, 102, ";   EXIT   ;");
+        renderer.drawString(112, 110, ",----------.");
 
         if (selectedOption == OPTION_CONTINUE) {
-            renderer.drawString(88, 86,  "  >          <  ");
+            renderer.drawString(112,  70, "[==========]");
+            renderer.drawString(112,  78, "|          |");
+            renderer.drawString(112,  86, "{==========}");
         } else if (selectedOption == OPTION_EXIT) {
-            renderer.drawString(88, 94,  "  >          <  ");
+            renderer.drawString(112,  94, "[==========]");
+            renderer.drawString(112, 102, "|          |");
+            renderer.drawString(112, 110, "{==========}");
         }
     }
 }
