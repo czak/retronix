@@ -29,9 +29,9 @@ public class WelcomeState extends State {
 
     @Override
     public void handleEvent(Event event) {
-        if (event == Event.KEY_SELECT) {
+        if (event == Event.SELECT) {
             game.pushState(new PlayState(game));
-        } else if (event == Event.KEY_BACK) {
+        } else if (event == Event.BACK) {
             game.stop();
         }
     }

@@ -137,12 +137,12 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
     @Override
     public void onKeyDown(KeyDownEvent event) {
         switch (event.getNativeKeyCode()) {
-            case KeyCodes.KEY_LEFT: game.addEvent(Event.KEY_LEFT); break;
-            case KeyCodes.KEY_RIGHT: game.addEvent(Event.KEY_RIGHT); break;
-            case KeyCodes.KEY_UP: game.addEvent(Event.KEY_UP); break;
-            case KeyCodes.KEY_DOWN: game.addEvent(Event.KEY_DOWN); break;
-            case KeyCodes.KEY_ENTER: game.addEvent(Event.KEY_SELECT); break;
-            case KeyCodes.KEY_ESCAPE: game.addEvent(Event.KEY_BACK); break;
+            case KeyCodes.KEY_LEFT: game.addEvent(Event.LEFT); break;
+            case KeyCodes.KEY_RIGHT: game.addEvent(Event.RIGHT); break;
+            case KeyCodes.KEY_UP: game.addEvent(Event.UP); break;
+            case KeyCodes.KEY_DOWN: game.addEvent(Event.DOWN); break;
+            case KeyCodes.KEY_ENTER: game.addEvent(Event.SELECT); break;
+            case KeyCodes.KEY_ESCAPE: game.addEvent(Event.BACK); break;
             default: return;
         }
     }

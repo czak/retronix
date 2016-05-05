@@ -21,12 +21,12 @@ public class Application extends JFrame implements Backend {
     private static Map<Integer, Event> EVENT_MAP = new HashMap<>();
 
     static {
-        EVENT_MAP.put(KeyEvent.VK_UP, Event.KEY_UP);
-        EVENT_MAP.put(KeyEvent.VK_DOWN, Event.KEY_DOWN);
-        EVENT_MAP.put(KeyEvent.VK_RIGHT, Event.KEY_RIGHT);
-        EVENT_MAP.put(KeyEvent.VK_LEFT, Event.KEY_LEFT);
-        EVENT_MAP.put(KeyEvent.VK_ENTER, Event.KEY_SELECT);
-        EVENT_MAP.put(KeyEvent.VK_ESCAPE, Event.KEY_BACK);
+        EVENT_MAP.put(KeyEvent.VK_UP, Event.UP);
+        EVENT_MAP.put(KeyEvent.VK_DOWN, Event.DOWN);
+        EVENT_MAP.put(KeyEvent.VK_RIGHT, Event.RIGHT);
+        EVENT_MAP.put(KeyEvent.VK_LEFT, Event.LEFT);
+        EVENT_MAP.put(KeyEvent.VK_ENTER, Event.SELECT);
+        EVENT_MAP.put(KeyEvent.VK_ESCAPE, Event.BACK);
     }
 
     private Screen screen;

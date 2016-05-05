@@ -5,17 +5,17 @@ package pl.czak.retronix.engine;
  */
 public class Event {
     public enum Type {
-        KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT,
-        KEY_SELECT,
-        KEY_BACK
+        UP, DOWN, LEFT, RIGHT,
+        SELECT,
+        BACK
     }
 
-    public static final Event KEY_UP = new Event(Type.KEY_UP);
-    public static final Event KEY_DOWN = new Event(Type.KEY_DOWN);
-    public static final Event KEY_LEFT = new Event(Type.KEY_LEFT);
-    public static final Event KEY_RIGHT = new Event(Type.KEY_RIGHT);
-    public static final Event KEY_SELECT = new Event(Type.KEY_SELECT);
-    public static final Event KEY_BACK = new Event(Type.KEY_BACK);
+    public static final Event UP = new Event(Type.UP);
+    public static final Event DOWN = new Event(Type.DOWN);
+    public static final Event LEFT = new Event(Type.LEFT);
+    public static final Event RIGHT = new Event(Type.RIGHT);
+    public static final Event SELECT = new Event(Type.SELECT);
+    public static final Event BACK = new Event(Type.BACK);
 
     public final Type type;
 

@@ -71,19 +71,19 @@ public class PlayState extends State {
     @Override
     public void handleEvent(Event event) {
         switch (event.type) {
-            case KEY_UP:
+            case UP:
                 player.setDirection(Direction.NORTH);
                 break;
-            case KEY_DOWN:
+            case DOWN:
                 player.setDirection(Direction.SOUTH);
                 break;
-            case KEY_LEFT:
+            case LEFT:
                 player.setDirection(Direction.WEST);
                 break;
-            case KEY_RIGHT:
+            case RIGHT:
                 player.setDirection(Direction.EAST);
                 break;
-            case KEY_BACK:
+            case BACK:
                 pause();
             default:
                 break;

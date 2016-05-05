@@ -23,11 +23,11 @@ public class PauseState extends State {
     @Override
     public void handleEvent(Event event) {
         switch (event.type) {
-            case KEY_UP:
-            case KEY_DOWN:
+            case UP:
+            case DOWN:
                 selectedOption = 1 - selectedOption;
                 break;
-            case KEY_SELECT:
+            case SELECT:
                 if (selectedOption == OPTION_CONTINUE) {
                     game.popState();
                 } else if (selectedOption == OPTION_EXIT) {
@@ -35,7 +35,7 @@ public class PauseState extends State {
                     game.popState();
                 }
                 break;
-            case KEY_BACK:
+            case BACK:
                 game.popState();
                 break;
             default:

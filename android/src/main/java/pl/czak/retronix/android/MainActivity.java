@@ -72,23 +72,23 @@ public class MainActivity extends Activity implements Backend {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
-                game.addEvent(Event.KEY_UP);
+                game.addEvent(Event.UP);
                 return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                game.addEvent(Event.KEY_DOWN);
+                game.addEvent(Event.DOWN);
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                game.addEvent(Event.KEY_LEFT);
+                game.addEvent(Event.LEFT);
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                game.addEvent(Event.KEY_RIGHT);
+                game.addEvent(Event.RIGHT);
                 return true;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
-                game.addEvent(Event.KEY_SELECT);
+                game.addEvent(Event.SELECT);
                 return true;
             case KeyEvent.KEYCODE_BACK:
-                game.addEvent(Event.KEY_BACK);
+                game.addEvent(Event.BACK);
                 return true;
             default:
                 return false;
@@ -104,7 +104,7 @@ public class MainActivity extends Activity implements Backend {
     class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            game.addEvent(Event.KEY_SELECT);
+            game.addEvent(Event.SELECT);
             return true;
         }
 
@@ -120,13 +120,13 @@ public class MainActivity extends Activity implements Backend {
             double angle = getAngle(x1, y1, x2, y2);
 
             if (angle >= 45 && angle < 135) {
-                game.addEvent(Event.KEY_UP);
+                game.addEvent(Event.UP);
             } else if (angle >= 0 && angle < 45 || angle >= 315 && angle < 360) {
-                game.addEvent(Event.KEY_RIGHT);
+                game.addEvent(Event.RIGHT);
             } else if (angle >= 225 && angle < 315) {
-                game.addEvent(Event.KEY_DOWN);
+                game.addEvent(Event.DOWN);
             } else {
-                game.addEvent(Event.KEY_LEFT);
+                game.addEvent(Event.LEFT);
             }
 
             return true;
