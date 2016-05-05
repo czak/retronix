@@ -10,10 +10,7 @@ import pl.czak.retronix.states.WelcomeState;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +47,13 @@ public class Application extends JFrame implements Backend {
             public void keyPressed(KeyEvent e) {
                 Event event = EVENT_MAP.get(e.getKeyCode());
                 if (event != null) game.addEvent(event);
+            }
+        });
+
+        screen.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                game.addEvent(new Event(Event.Type.CLICK, e.getX()/4, e.getY()/4));
             }
         });
 

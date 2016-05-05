@@ -22,7 +22,7 @@ public class PauseState extends State {
 
     @Override
     public void handleEvent(Event event) {
-        switch (event.type) {
+        switch (event.getType()) {
             case UP:
             case DOWN:
                 selectedOption = 1 - selectedOption;

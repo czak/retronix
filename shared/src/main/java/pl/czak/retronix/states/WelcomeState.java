@@ -29,10 +29,17 @@ public class WelcomeState extends State {
 
     @Override
     public void handleEvent(Event event) {
-        if (event == Event.SELECT) {
-            game.pushState(new PlayState(game));
-        } else if (event == Event.BACK) {
-            game.stop();
+        switch (event.getType()) {
+            case SELECT:
+                game.pushState(new PlayState(game));
+                break;
+            case CLICK:
+                if (event.isWithinBounds(104, 92, 112, 24))
+                    game.pushState(new PlayState(game));
+                break;
+            case BACK:
+                game.stop();
+                break;
         }
     }
 
@@ -55,7 +62,9 @@ public class WelcomeState extends State {
             y += 4;
         }
 
-        renderer.drawString(104, 100, "> START GAME <");
+        renderer.drawString(104, 92,  "[============]");
+        renderer.drawString(104, 100, "| START GAME |");
+        renderer.drawString(104, 108, "{============}");
 
         renderer.drawString(68, 154, "Made by £ukasz Adamczak");
         renderer.drawString(8, 168, "Based on Xonix by Ilan Rav & Dani Katz");
