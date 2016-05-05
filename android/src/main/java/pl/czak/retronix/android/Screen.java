@@ -53,7 +53,7 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
         this.renderer = new CanvasRenderer();
 
         try {
-            InputStream in = getContext().getAssets().open("font.png");
+            InputStream in = getContext().getAssets().open("images/font.png");
             font = BitmapFactory.decodeStream(in);
         } catch (IOException e) {
             e.printStackTrace();
