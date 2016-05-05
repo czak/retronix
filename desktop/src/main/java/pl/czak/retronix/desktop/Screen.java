@@ -25,7 +25,7 @@ public class Screen extends JPanel {
     static {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(ClassLoader.getSystemResource("font.png"));
+            img = ImageIO.read(ClassLoader.getSystemResource("images/font.png"));
         } catch (IOException ex) {
             System.out.println("Font not loaded");
         }

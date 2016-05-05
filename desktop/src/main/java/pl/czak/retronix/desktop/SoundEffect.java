@@ -16,10 +16,10 @@ import javax.sound.sampled.*;
  *    sound files, so that the play is not paused while loading the file for the first time.
   */
 public enum SoundEffect {
-    LEVEL_COMPLETE("hurra.wav"),
-    DEATH("death.wav"),
-    GAME_OVER("gameover.wav"),
-    DANGER("danger.wav");
+    LEVEL_COMPLETE("sounds/hurra.wav"),
+    DEATH("sounds/death.wav"),
+    GAME_OVER("sounds/gameover.wav"),
+    DANGER("sounds/danger.wav");
 
     // Each sound effect has its own clip, loaded with its own sound file.
     private Clip clip;
