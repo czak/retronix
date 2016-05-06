@@ -1,17 +1,23 @@
 package pl.czak.retronix.android;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import pl.czak.retronix.engine.Renderer;
-import pl.czak.retronix.engine.State;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import pl.czak.retronix.engine.Renderer;
+import pl.czak.retronix.engine.State;
 
 /**
  * Created by czak on 14/04/16.
@@ -48,7 +54,7 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
         super(context);
         holder = getHolder();
         holder.addCallback(this);
-        holder.setFixedSize(1280, 720);
+        holder.setFixedSize(960, 540);
 
         this.renderer = new CanvasRenderer();
 
@@ -62,7 +68,7 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
 
     public void draw(State state) {
         if (ready && (canvas = holder.lockCanvas()) != null) {
-            canvas.scale(4, 4);
+            canvas.scale(3, 3);
             canvas.drawColor(Color.BLACK);
             state.render(renderer);
             holder.unlockCanvasAndPost(canvas);
@@ -95,7 +101,13 @@ public class Screen extends SurfaceView implements SurfaceHolder.Callback {
 
         @Override
         public void drawString(int x, int y, String text) {
-            for (byte b : text.getBytes(StandardCharsets.ISO_8859_1)) {
+            byte[] bytes = new byte[0];
+            try {
+                bytes = text.getBytes("ISO-8859-1");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            for (byte b : bytes) {
                 int index = b & 0xff;
                 int sx = (index % 16) * 8;
                 int sy = (index / 16) * 8;
