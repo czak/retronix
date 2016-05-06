@@ -2,6 +2,7 @@ package pl.czak.retronix.android;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.GestureDetector;
@@ -31,6 +32,7 @@ public class MainActivity extends Activity implements Backend {
         detector = new GestureDetectorCompat(this, new GestureListener());
 
         soundBank = new SoundBank(this);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         game = new Game(this);
         game.pushState(new WelcomeState(game));
