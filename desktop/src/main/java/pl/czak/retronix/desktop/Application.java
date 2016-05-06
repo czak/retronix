@@ -31,11 +31,15 @@ public class Application extends JFrame implements Backend {
     private Thread gameThread;
 
     public Application() {
-        screen = new Screen();
         setTitle("Retronix");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setContentPane(screen);
+
+        screen = new Screen();
+        add(screen);
         pack();
+
+        // Enable double buffering
+        screen.createBufferStrategy(2);
 
         SoundEffect.init();
 

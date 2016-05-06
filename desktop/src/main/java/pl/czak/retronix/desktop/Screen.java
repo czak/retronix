@@ -1,14 +1,11 @@
 package pl.czak.retronix.desktop;
 
-import pl.czak.retronix.engine.State;
 import pl.czak.retronix.engine.Renderer;
+import pl.czak.retronix.engine.State;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +15,7 @@ import java.util.Map;
 /**
  * Created by czak on 24/02/16.
  */
-public class Screen extends JPanel {
+public class Screen extends Canvas {
     private static final BufferedImage FONT;
     private static final Map<Renderer.Color, Color> COLOR_MAP = new HashMap<>();
 
@@ -36,34 +33,34 @@ public class Screen extends JPanel {
         COLOR_MAP.put(Renderer.Color.MAGENTA, new Color(168, 0, 168));
     }
 
-    private State state;
-    private Graphics2D g2;
-    private Graphics2DRenderer renderer;
-
     public Screen() {
         setPreferredSize(new Dimension(1280, 720));
-        setBackground(Color.BLACK);
-
-        // No state is preserved but I'm storing it anyway
-        // to prevent instantiating for every frame.
-        this.renderer = new Graphics2DRenderer();
+        setIgnoreRepaint(true);
     }
 
     public void draw(State state) {
-        this.state = state;
-        repaint();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g2 = (Graphics2D) g;
-        g2.scale(4, 4);
-        if (state != null) state.render(renderer);
+        BufferStrategy buffer = getBufferStrategy();
+        Graphics2D g2 = (Graphics2D) buffer.getDrawGraphics();
+        if (g2 == null) return;
+        try {
+            g2.scale(4, 4);
+            g2.setBackground(Color.BLACK);
+            g2.clearRect(0, 0, 320, 180);
+            state.render(new Graphics2DRenderer(g2));
+            buffer.show();
+        } finally {
+            g2.dispose();
+        }
     }
 
     // Graphics2D-based implementation of the Retronix Renderer interface
-    class Graphics2DRenderer implements Renderer {
+    private class Graphics2DRenderer implements Renderer {
+        private Graphics2D g2;
+
+        public Graphics2DRenderer(Graphics2D g2) {
+            this.g2 = g2;
+        }
+
         @Override
         public void drawSprite(int x, int y, int spriteId) {
             int sx = (spriteId % 32) * 4;
