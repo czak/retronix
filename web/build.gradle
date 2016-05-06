@@ -20,6 +20,10 @@ gwt {
   src += files(project(':shared').sourceSets.main.java.srcDirs)
 }
 
+warTemplate {
+  from project(':shared').sourceSets.main.resources.srcDirs
+}
+
 dependencies {
   compile project(':shared')
   compile 'com.google.gwt:gwt-user:2.7.0'

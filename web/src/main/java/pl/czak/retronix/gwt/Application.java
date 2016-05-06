@@ -124,6 +124,11 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
     }
 
     @Override
+    public boolean isTouchEnabled() {
+        return false;
+    }
+
+    @Override
     public void playSound(Sound sound) {
         switch (sound) {
             case LEVEL_COMPLETE: audio.setSrc("sounds/hurra.wav"); break;
