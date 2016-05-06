@@ -1,6 +1,8 @@
 package pl.czak.retronix.models;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -46,7 +48,7 @@ public class Board {
         // Mark all enemy-occupied areas as DEEP_SEA
         for (Enemy enemy : enemies) {
             Position pos = enemy.getPosition();
-            floodFill(pos.x, pos.y);
+            floodFill(pos);
         }
 
         // ...and set everything else to LAND
@@ -139,15 +141,18 @@ public class Board {
         return position;
     }
 
-
-    // TODO: Switch to a non-recursive implementation (or a smarter one even)
-    private void floodFill(int x, int y) {
-        if (fields[y][x] == Field.SEA) {
-            fields[y][x] = Field.DEEP_SEA;
-            floodFill(x - 1, y);
-            floodFill(x + 1, y);
-            floodFill(x, y - 1);
-            floodFill(x, y + 1);
+    private void floodFill(Position pos) {
+        Queue<Position> q = new LinkedList<>();
+        q.add(pos);
+        while (!q.isEmpty()) {
+            pos = q.remove();
+            if (getField(pos) == Field.SEA) {
+                setField(pos, Field.DEEP_SEA);
+                q.add(pos.movedTo(Direction.NORTH));
+                q.add(pos.movedTo(Direction.SOUTH));
+                q.add(pos.movedTo(Direction.EAST));
+                q.add(pos.movedTo(Direction.WEST));
+            }
         }
     }
 }
