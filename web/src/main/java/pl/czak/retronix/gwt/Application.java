@@ -46,18 +46,17 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
             Window.alert("Canvas not supported");
             return;
         }
-        RootPanel.get().add(canvas);
+        RootPanel.get("gamebox").add(canvas);
 
         CanvasElement el = canvas.getCanvasElement();
-        el.setWidth(640);
-        el.setHeight(360);
+        el.setWidth(960);
+        el.setHeight(540);
 
         Context2d ctx = canvas.getContext2d();
         setupContext(ctx);
-        ctx.scale(2, 2);
+        ctx.scale(3, 3);
 
-        canvas.setFocus(true);
-        canvas.addKeyDownHandler(this);
+        RootPanel.get().addDomHandler(this, KeyDownEvent.getType());
 
         font = new Image("images/font.png");
         fontElement = ImageElement.as(font.getElement());

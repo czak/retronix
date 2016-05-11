@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'dos';
+  src: url('fonts/dos.eot?#iefix') format('embedded-opentype'),
+       url('fonts/dos.woff') format('woff'),
+       url('fonts/dos.ttf')  format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background: #222;
+  color: #ddd;
+  font-family: 'dos';
+  font-size: 16px;
+  line-height: 20px;
+}
+
+a {
+  color: #00A8A9;
+}
+
+#container {
+  width: 960px;
+  margin: 0 auto;
+}
+
+/* Page header */
+
+header {
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+header h1 {
+  float: left;
+  font-size: 48px;
+  font-weight: normal;
+  margin: 0;
+}
+
+header p {
+  float: right;
+  text-align: right;
+  margin: 4px 0;
+}
+
+/* Container for the game canvas */
+
+#gamebox {
+  background: black;
+  width: 960px;
+  height: 540px;
+}
+
+/* Footer */
+
+footer {
+  text-align: center;
+}
