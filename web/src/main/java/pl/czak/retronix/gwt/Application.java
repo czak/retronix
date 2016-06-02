@@ -46,7 +46,7 @@ public class Application implements EntryPoint, Backend, KeyDownHandler {
             Window.alert("Canvas not supported");
             return;
         }
-        RootPanel.get("gamebox").add(canvas);
+        RootPanel.get("screen").add(canvas);
 
         CanvasElement el = canvas.getCanvasElement();
         el.setWidth(960);
