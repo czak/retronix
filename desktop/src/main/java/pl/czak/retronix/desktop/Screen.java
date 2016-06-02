@@ -34,7 +34,7 @@ public class Screen extends Canvas {
     }
 
     public Screen() {
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(960, 540));
         setIgnoreRepaint(true);
     }
 
@@ -43,7 +43,7 @@ public class Screen extends Canvas {
         Graphics2D g2 = (Graphics2D) buffer.getDrawGraphics();
         if (g2 == null) return;
         try {
-            g2.scale(4, 4);
+            g2.scale(3, 3);
             g2.setBackground(Color.BLACK);
             g2.clearRect(0, 0, 320, 180);
             state.render(new Graphics2DRenderer(g2));
