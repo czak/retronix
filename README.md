@@ -33,19 +33,19 @@ version [on Google Play](https://play.google.com/store/apps/details?id=pl.czak.r
 ### For desktop
 
 ```sh
-$ gradle desktop:run
+$ ./gradlew desktop:run
 ```
 
 ### Web
 
 ```sh
-$ gradle web:gwtDev
+$ ./gradlew web:gwtDev
 ```
 
 ### Android
 
 ```sh
-$ gradle android:installDebug
+$ ./gradlew android:installDebug
 ```
 
 ## License
