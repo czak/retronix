@@ -6,8 +6,7 @@ following platforms:
 
 ![](https://raw.githubusercontent.com/czak/retronix/assets/platforms.jpg)
 
-You can [play online now](http://retronix.czak.pl) or download the Android
-version [on Google Play](https://play.google.com/store/apps/details?id=pl.czak.retronix.android).
+You can [play online now](http://retronix.czak.pl).
 
 ## How to play
 
