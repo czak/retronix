@@ -1,5 +1,3 @@
-# retronix-site
+# Retronix / gh-pages
 
-This repo contains the static page assets of http://retronix.czak.pl
-
-The js part should insert a canvas component into div#screen
+This branch contains static assets and prebuilt GWT for http://retronix.czak.pl.
